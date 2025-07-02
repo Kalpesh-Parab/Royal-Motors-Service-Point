@@ -1,0 +1,69 @@
+.HomeHero {
+  background: url('../../../../assets/heroBg.gif') lightgray 0px -7.377px / 99.988%
+    100.877% no-repeat;
+  height: 80vh;
+  width: 100%;
+  padding: 8% 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+
+  .heading {
+    color: #fff;
+    mix-blend-mode: difference;
+    font-size: 128px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 92.02%; /* 117.785px */
+    letter-spacing: -7.68px;
+  }
+
+  .subHeading {
+    color: #fff;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 116.224%; /* 74.383px */
+    letter-spacing: -3.84px;
+  }
+
+  .desc {
+    padding-top: 3vw;
+    color: #fff;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -1.44px;
+  }
+
+  .bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .contactUs {
+        cursor: pointer;
+        width: max-content;
+        padding: .7vw 1.4vw;
+        border-radius: 9px;
+        background: #fff;
+        display: flex;
+        color: #000;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -1.92px;    
+    }
+
+    .info{
+        color: #FF6A00;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+letter-spacing: -1.2px;
+    }
+  }
+}
