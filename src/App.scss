@@ -1,0 +1,35 @@
+/* RESET & GLOBAL STYLES */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  font-family: 'Outfit', sans-serif;
+  background: #0f0f0f;
+
+  .app-content {
+  padding-top: 6.5vw; // Adjust based on actual header height
+  min-height: 100vh;
+  background-color: #0f0f0f;
+}
+
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

@@ -1,0 +1,65 @@
+.Header {
+    position: fixed; // or `sticky`
+  top: 0;
+  left: 0;
+  height: 6.5vw; 
+  z-index: 1000;
+  width: 100%;
+  gap: 1vw;
+  padding: 2vw 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: max-content;
+
+  .logo {
+    width: 20%;
+  }
+
+  .navlinks {
+    display: flex;
+    width: 60%;
+    justify-content: center;
+    gap: 1.5vw;
+
+    .link {
+      width: 15%;
+      color: #ff6a00;
+      font-family: Inter;
+      font-size: 0.833333vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: -0.96px;
+      border-radius: 2vw;
+      padding: 0.5vw 1vw;
+      text-align: center;
+      border: 0.1vw solid #fff;
+    }
+.link {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(2px);
+    background-color: #ff6a00;
+    color: #fff;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+.link.active {
+  background-color: #ff6a00;
+  color: #fff;
+  border-color: #ff6a00;
+}
+
+  }
+
+  .royalLogo {
+    width: 20%;
+    display: flex;
+    justify-content: end;
+  }
+}
