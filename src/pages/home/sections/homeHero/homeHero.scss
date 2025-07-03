@@ -1,14 +1,22 @@
-.HomeHero {
-  background: url('../../../../assets/bgvid.gif') lightgray 0px -7.377px / 99.988%
-    100.877% no-repeat;
+.HomeHero{
   height: 90vh;
-  width: 100%;
-  padding: 8% 5%;
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 1vw;
-
-  .heading {
+  
+  .bg-video{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .overlay{
+    z-index: 1;
+    position: absolute;
+    padding: 8% 5%;  
+    width: 100%;
+    
+    .heading {
     color: #fff;
     mix-blend-mode: difference;
     font-size: 128px;
@@ -19,6 +27,7 @@
   }
 
   .subHeading {
+    padding-top: 1.56vw;
     color: #fff;
     font-size: 64px;
     font-style: normal;
@@ -28,7 +37,7 @@
   }
 
   .desc {
-    padding-top: 3vw;
+    padding-top: 4.54vw;
     color: #fff;
     font-size: 24px;
     font-style: normal;
@@ -38,6 +47,7 @@
   }
 
   .bottom{
+    padding-top: 1.1vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -65,5 +75,6 @@ font-weight: 600;
 line-height: normal;
 letter-spacing: -1.2px;
     }
+  }
   }
 }
