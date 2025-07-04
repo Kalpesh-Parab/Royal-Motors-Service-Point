@@ -1,6 +1,8 @@
 import './learn.scss';
 import arrow from '../../../../assets/contact.png';
 import re1 from "../../../../assets/re1.jpg"
+import royalLogo from "../../../../assets/royalLogo.png"
+
 import { useNavigate } from 'react-router-dom';
 
 const Learn = () => {
@@ -23,6 +25,7 @@ const Learn = () => {
       <div className='bottom'>
         <div className='image'>
           <img src={re1} alt='' />
+          <img src={royalLogo} alt="" className='RE'/>
         </div>
         <div className='info'>
           <div className='title'>
