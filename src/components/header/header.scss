@@ -1,17 +1,21 @@
 .Header {
-  position: fixed; // or `sticky`
+  position: fixed;
   top: 0;
   left: 0;
-  height: 4.5vw;
   z-index: 1000;
   width: 100%;
   gap: 1vw;
-  padding: .5vw 5vw;
+  padding: 0.5vw 5vw;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: #0f0f0f;
+  background: #0f0f0fd7;
   height: max-content;
+  transition: transform 0.3s ease-in-out;
+
+  &.hide {
+    transform: translateY(-100%);
+  }
 
   .logo {
     width: 20%;
@@ -24,16 +28,16 @@
     gap: 1.5vw;
 
     .link {
-      width: 15%;
+      width: 17%;
       color: #ff6a00;
       font-family: Inter;
-      font-size: 0.833333vw;
+      font-size: 0.933333vw;
       font-style: normal;
       font-weight: 600;
       line-height: normal;
       letter-spacing: -0.96px;
       border-radius: 2vw;
-      padding: 0.5vw 1vw;
+      padding: 0.7vw 1vw;
       text-align: center;
       border: 0.1vw solid #fff;
     }

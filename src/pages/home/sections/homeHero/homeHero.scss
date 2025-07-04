@@ -1,87 +1,86 @@
-.HomeHero{
+.HomeHero {
   height: 90vh;
   position: relative;
   display: flex;
-  
-  .bg-video{
+
+  .bg-video {
     position: relative;
     z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
-  .overlay{
+
+  .overlay {
     z-index: 1;
     position: absolute;
-    padding: 8% 5%;  
+    padding: 8% 5%;
     width: 100%;
     mix-blend-mode: difference;
 
-    
     .heading {
-    color: #fff;
-    font-size: 128px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 92.02%; /* 117.785px */
-    letter-spacing: -7.68px;
-  }
+      color: #fff;
+      font-size: 6.6666vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 92.02%; /* 117.785px */
+      letter-spacing: -7.68px;
+    }
 
-  .subHeading {
-    padding-top: 1.56vw;
-    color: #fff;
-    font-size: 64px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 116.224%; /* 74.383px */
-    letter-spacing: -3.84px;
-  }
+    .subHeading {
+      padding-top: 1.56vw;
+      color: #fff;
+      font-size: 3.33333vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 116.224%; /* 74.383px */
+      letter-spacing: -3.84px;
+    }
 
-  .desc {
-    padding-top: 4.54vw;
-    color: #fff;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: -1.44px;
-  }
+    .desc {
+      padding-top: 4.54vw;
+      color: #fff;
+      font-size: 1.25vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: -1.44px;
+    }
 
-  .bottom{
-    padding-top: 1.1vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    .bottom {
+      padding-top: 1.1vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-    .contactUs {
+      .contactUs {
         cursor: pointer;
         width: max-content;
-        padding: .7vw 1.4vw;
+        padding: 0.7vw 1.4vw;
         border-radius: 9px;
         background: #fff;
         display: flex;
         gap: 0.4vw;
         color: #000;
-        font-size: 32px;
+        font-size: 1.6vw;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
-        letter-spacing: -1.92px;   
-        
-        &:hover{
-          background-color: #FF6A00;
-        }
-    }
+        letter-spacing: -1.92px;
 
-    .info{
-        color: #FF6A00;
-font-size: 20px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-letter-spacing: -1.2px;
+        &:hover {
+          background-color: #ff6a00;
+        }
+      }
+
+      .info {
+        color: #ff6a00;
+        font-size: 1.041666vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -1.2px;
+      }
     }
-  }
   }
 }

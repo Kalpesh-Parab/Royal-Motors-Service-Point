@@ -1,16 +1,17 @@
-.Emotions{
-    width: 100%;
-    height: 89vh;
-    background: url("../../../../assets/emotionBg.jpg") lightgray -0.155px -265.66px / 100.016% 132.677% no-repeat;
-    position: relative;
+.Emotions {
+  width: 100%;
+  height: 89vh;
+  background: url('../../../../assets/emotionBg.jpg') lightgray -0.155px -265.66px /
+    100.016% 132.677% no-repeat;
+  position: relative;
 
-.image{
+  .image {
     position: absolute;
     top: 12%;
     left: 5%;
-}
+  }
 
-.desc{
+  .desc {
     display: flex;
     flex-direction: column;
     gap: 2vw;
@@ -18,28 +19,28 @@
     right: 10%;
     top: 35%;
 
-    .title{
-color: #212121;
-font-size: 95px;
-font-style: normal;
-font-weight: 600;
-line-height: 86.09%; /* 81.785px */
-letter-spacing: -5.7px;
+    .title {
+      color: #212121;
+      font-size: 4.94791666vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 86.09%; /* 81.785px */
+      letter-spacing: -5.7px;
     }
 
-    .since{
-color: #1E1E1E;
-font-size: 28px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-letter-spacing: -1.68px;
+    .since {
+      color: #1e1e1e;
+      font-size: 1.458333vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: -1.68px;
     }
-}
+  }
 
-.logo{
+  .logo {
     position: absolute;
     bottom: 5%;
     right: 5%;
-}
+  }
 }
