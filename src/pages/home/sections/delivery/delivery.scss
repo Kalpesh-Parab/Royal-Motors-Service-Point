@@ -1,0 +1,90 @@
+.Delivery {
+  width: 100%;
+  padding: 0 5% 5% 5%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 3vw;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .tHead {
+      color: #fff;
+      font-family: Inter;
+      font-size: 4.4270833vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 86.09%; /* 73.176px */
+      letter-spacing: -5.1px;
+
+      span {
+        color: #ff6a00;
+      }
+    }
+
+    .contactUs {
+      cursor: pointer;
+      width: max-content;
+      padding: 0.7vw 1.4vw;
+      border-radius: 9px;
+      background: #fff;
+      display: flex;
+      gap: 0.4vw;
+      color: #000;
+      font-size: 1.6vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: -1.92px;
+
+      &:hover {
+        background-color: #ff6a00;
+      }
+    }
+  }
+
+  .desc {
+    width: 74%;
+    color: #fff;
+    font-family: Inter;
+    font-size: 1.25vw;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.96px;
+  }
+
+  .banner {
+    position: relative;
+    background: url('../../../../assets/deliveryBg.jpg') lightgray -0.25px -807px /
+      100.029% 446.394% no-repeat;
+    height: 56.25vh;
+    background-blend-mode: multiply;
+
+    .image {
+      position: absolute;
+      top: 8%;
+      left: 3%;
+    }
+
+    .logo {
+      position: absolute;
+      bottom: 8%;
+      right: 3%;
+    }
+  }
+
+  .text {
+    width: 67%;
+    color: #fff;
+    font-size: 1.875vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -1.44px;
+  }
+}
