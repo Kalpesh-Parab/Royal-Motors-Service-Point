@@ -1,0 +1,129 @@
+.Shine {
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+  padding: 2.5% 5%;
+  position: relative;
+  overflow-y: hidden;
+
+  .Shape1 {
+    position: absolute;
+    width: 74.58333vw;
+    height: 18.125vw;
+    flex-shrink: 0;
+    border-radius: 1624px;
+    background: #ff6a00;
+    mix-blend-mode: plus-lighter;
+    filter: blur(227.10000610351562px);
+    top: 55%;
+    left: -56%;
+  }
+
+  .text {
+    color: #fff;
+    font-size: 1.6666vw;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -1.28px;
+  }
+
+  .available {
+    display: flex;
+    width: 100%;
+    padding: 1vw;
+    border-radius: 25px;
+    border: 1px solid #fff;
+    justify-content: center;
+    align-items: center;
+
+    .service {
+      width: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1vw 3.5vw;
+      color: #ff6a00;
+      font-family: Inter;
+      font-size: 1.4583333vw;
+      font-style: normal;
+      text-align: center;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: -1.12px;
+    }
+  }
+
+  .keep {
+    display: flex;
+    justify-content: center;
+    height: max-content;
+
+    .left {
+      position: relative;
+      width: 50%;
+
+      img {
+        position: absolute;
+        display: flex;
+
+        object-fit: cover;
+        width: 110%;
+        top: 5%;
+        left: -27%;
+        aspect-ratio: 1.5;
+      }
+
+      .shiny {
+        width: 50%;
+        aspect-ratio: 1;
+        opacity: 0;
+        mix-blend-mode: screen;
+        transform: scale(0.9);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        pointer-events: none; // optional: prevents accidental interaction
+
+        img {
+          top: 15%;
+          left: 50%;
+          mix-blend-mode: screen;
+          width: 50%;
+          height: 50%;
+        }
+      }
+      &:hover {
+        .shiny {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+
+    .right {
+      padding: 11% 7% 10% 5%;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5vw;
+      color: #fff;
+      font-size: 4.9479166vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 101%; /* 95.95px */
+      letter-spacing: -5.7px;
+
+      span {
+        color: #ff6a00;
+      }
+      .short {
+        color: #fff;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -1.68px;
+        font-size: 1.458333vw;
+      }
+    }
+  }
+}
