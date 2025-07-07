@@ -1,6 +1,6 @@
 import './shine.scss';
 import red from '../../../../assets/red.png';
-import redshine from '../../../../assets/redshine.png';
+import redshine from '../../../../assets/redShine.png';
 
 const Shine = () => {
   const services = [
