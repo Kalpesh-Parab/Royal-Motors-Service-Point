@@ -1,0 +1,142 @@
+.Testimonials {
+  width: 100%;
+  padding: 2.5% 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .heading {
+      color: #fff;
+      font-family: Inter;
+      font-size: 4.4270833vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 86.09%; /* 73.176px */
+      letter-spacing: -5.1px;
+
+      span {
+        color: #ff6a00;
+      }
+    }
+
+    .contactUs {
+      cursor: pointer;
+      width: max-content;
+      padding: 0.7vw 1.4vw;
+      border-radius: 9px;
+      background: #fff;
+      display: flex;
+      gap: 0.4vw;
+      color: #000;
+      font-size: 1.6vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: -1.92px;
+
+      &:hover {
+        background-color: #ff6a00;
+      }
+    }
+  }
+
+  .cards {
+    height: 80vh;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 2vw;
+
+    .card {
+        border: 2px solid #000000b9;
+      position: absolute;
+      top: 10%;
+      margin: auto;
+      cursor: pointer;
+      transition: all 0.6s ease;
+      width: 70%;
+      border-radius: 29px;
+      background: #ffd38d;
+      transition: transform 0.6s ease, opacity 0.4s ease;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+
+      &.active {
+        transform: translateY(0) scale(1.02) !important;
+      }
+
+      .quote {
+        padding: 5vw 3vw;
+        color: #000;
+        font-size: 1.25vw;
+        font-style: italic;
+        font-weight: 500;
+        line-height: 158%;
+        letter-spacing: -1.44px;
+      }
+
+      .desc {
+        align-items: center;
+        gap: 2vw;
+        height: 10vw;
+        display: flex;
+        width: 100%;
+        background-color: #fff;
+        padding: 2vw 4vw;
+        border-radius: 0 0 29px 29px;
+
+        .image {
+          display: flex;
+          justify-content: center;
+          width: 11%;
+          background-color: #8f8f8f;
+          border-radius: 50%;
+          padding: 1vw;
+
+          img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: fill;
+          }
+        }
+
+        .details {
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+
+          .name {
+            color: #000;
+            font-size: 1.66vw;
+            font-weight: 700;
+            line-height: 158%;
+            letter-spacing: -1.92px;
+          }
+
+          .proud {
+            color: #000;
+            font-size: 0.833333vw;
+            font-weight: 400;
+            line-height: 158%;
+            letter-spacing: -0.96px;
+          }
+        }
+
+        .rating {
+          display: flex;
+          gap: 0.3vw;
+
+          .star {
+            width: 3.3vw;
+            height: 3.3vw;
+          }
+        }
+      }
+    }
+  }
+}

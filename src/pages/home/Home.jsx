@@ -6,6 +6,8 @@ import Emotions from './sections/emotions/Emotions';
 import WeProvide from './sections/weProvide/WeProvide';
 import Delivery from './sections/delivery/Delivery';
 import Shine from './sections/shine/Shine';
+import WhyChooseUs from './sections/whyChooseUs/WhyChooseUs';
+import Testimonials from './sections/testimonials/Testimonials';
 
 const Home = () => {
   return (
@@ -17,6 +19,8 @@ const Home = () => {
       <WeProvide />
       <Delivery />
       <Shine />
+      <WhyChooseUs />
+      <Testimonials/>
     </>
   );
 };
