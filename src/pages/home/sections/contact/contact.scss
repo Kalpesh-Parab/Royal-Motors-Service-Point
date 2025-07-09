@@ -62,12 +62,13 @@
     display: flex;
 
     .form {
-      width: 50%;
+      width: 65%;
       display: flex;
       flex-direction: column;
       gap: 1vw;
 
       label {
+        margin-top: 1vw;
         color: #fff;
         font-size: 2.1vw;
         font-style: normal;
@@ -78,16 +79,62 @@
 
       input,
       select {
+        border-radius: 5px;
+        background: rgba(217, 217, 217, 0.07);
+        backdrop-filter: blur(11.899999618530273px);
         width: 70%;
-        border-radius: 10px;
         color: #fff;
-        padding: 0.5vw;
+        padding: 1vw;
         font-size: 1.275vw;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
         letter-spacing: -2.16px;
       }
+
+      select {
+        background-color: #302f2f;
+      }
+
+      .contactUs {
+        margin-top: 3vw;
+        cursor: pointer;
+        width: max-content;
+        padding: 0.7vw 1.4vw;
+        border-radius: 9px;
+        background: #fff;
+        display: flex;
+        gap: 0.4vw;
+        color: #000;
+        font-size: 1.6vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -1.92px;
+
+        &:hover {
+          background-color: #ff6a00;
+        }
+      }
     }
+
+    .mech {
+      position: absolute;
+      right: -10%;
+      width: 50%;
+      z-index: 2;
+    }
+  }
+
+  .shape1 {
+    right: -25%;
+    bottom: 10%;
+    position: absolute;
+    width: 574px;
+    height: 989px;
+    flex-shrink: 0;
+    border-radius: 989px;
+    background: #ff6a00;
+    filter: blur(227.10000610351562px);
   }
 }
