@@ -52,7 +52,6 @@ once I visited this place.”`,
           </div>
         </div>
       </div>
-
       <div className='cards'>
         {testimonials.map((card, index) => {
           const total = testimonials.length;
@@ -97,6 +96,19 @@ once I visited this place.”`,
             </div>
           );
         })}
+      </div>
+      <div className='contact'>
+        Want to share your experience? We'd love to hear from you!
+        <br />
+        Reach out on Instagram{' '}
+        <a
+          href='https://www.instagram.com/royal_motors_dhanori?igsh=MnFhb2R0bzJkcGV3'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          @royal_motors_dhanori
+        </a>{' '}
+        or drop us a message anytime.
       </div>
     </section>
   );

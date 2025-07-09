@@ -8,6 +8,7 @@ import Delivery from './sections/delivery/Delivery';
 import Shine from './sections/shine/Shine';
 import WhyChooseUs from './sections/whyChooseUs/WhyChooseUs';
 import Testimonials from './sections/testimonials/Testimonials';
+import Contact from './sections/contact/Contact';
 
 const Home = () => {
   return (
@@ -20,7 +21,8 @@ const Home = () => {
       <Delivery />
       <Shine />
       <WhyChooseUs />
-      <Testimonials/>
+      <Testimonials />
+      <Contact/>
     </>
   );
 };
