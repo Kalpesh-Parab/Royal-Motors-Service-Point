@@ -1,0 +1,35 @@
+.About {
+  width: 100%;
+  padding: 3% 5% 30% 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+
+  .heading {
+    color: #fff;
+    font-size: 4.42703333vw;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 86.09%; /* 73.176px */
+    letter-spacing: -5.1px;
+
+    span {
+      color: #ff6a00;
+    }
+  }
+
+  .desc {
+    color: #fff;
+    font-size: 1.25vw;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.96px;
+  }
+
+  img{
+    width: 100%;
+    height: 100vh;
+    object-fit: contain;
+  }
+}
