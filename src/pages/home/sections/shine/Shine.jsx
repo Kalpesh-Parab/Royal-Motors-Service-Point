@@ -1,6 +1,6 @@
 import './shine.scss';
 import red from '../../../../assets/red.png';
-import redshine from '../../../../assets/redShine.png';
+import redShine from '../../../../assets/redShine.png';
 
 const Shine = () => {
   const services = [
@@ -26,7 +26,7 @@ const Shine = () => {
         <div className='left'>
                   <img src={red} alt='' />
                   <div className="shiny">
-                      <img src={redshine} alt="" />
+                      <img src={redShine} alt="" />
                   </div>
         </div>
         <div className='right'>
