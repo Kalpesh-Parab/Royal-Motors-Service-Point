@@ -2,6 +2,7 @@ import './shine.scss';
 import red from '../../../../assets/red.png';
 import redshine from '../../../../assets/redShine.png';
 
+
 const Shine = () => {
   const services = [
     `Regular Servicing`,
