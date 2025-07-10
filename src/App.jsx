@@ -8,7 +8,7 @@ import Contact from './pages/contact/Contact';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/footer/Footer';
-import ScrollToTop from './components/scrolltoTop/ScrolltoTop';
+import ScrollToTop from './components/scrolltoTop/ScrollToTop';
 
 function App() {
   return (
