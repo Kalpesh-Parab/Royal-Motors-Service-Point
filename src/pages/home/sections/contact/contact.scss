@@ -82,7 +82,7 @@
         border-radius: 5px;
         background: rgba(217, 217, 217, 0.07);
         backdrop-filter: blur(11.899999618530273px);
-        width: 70%;
+        width: 55%;
         color: #fff;
         padding: 1vw;
         font-size: 1.275vw;
@@ -97,6 +97,7 @@
       }
 
       .contactUs {
+        margin-bottom: 9vw;
         margin-top: 3vw;
         cursor: pointer;
         width: max-content;
@@ -119,9 +120,11 @@
     }
 
     .mech {
+      scale: 1.2;
       position: absolute;
-      right: -10%;
+      right: -5%;
       width: 50%;
+      bottom: -1%;
       z-index: 2;
     }
   }

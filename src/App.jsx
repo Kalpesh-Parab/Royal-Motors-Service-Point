@@ -8,10 +8,12 @@ import Contact from './pages/contact/Contact';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/footer/Footer';
+import ScrollToTop from './components/scrolltoTop/ScrolltoTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop/>
       <Header />
       <div className='app-content'>
         <Routes>
