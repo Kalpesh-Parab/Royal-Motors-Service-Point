@@ -1,0 +1,50 @@
+.Contact {
+  width: 100%;
+  display: flex;
+  padding: 2% 5% 10% 5%;
+  flex-direction: column;
+
+  .heading {
+    color: #fff;
+    font-size: 85px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 86.09%; /* 73.176px */
+    letter-spacing: -5.1px;
+
+    span {
+      color: #ff6a00;
+    }
+  }
+
+  .infoWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+    width: 70%;
+
+    .info {
+      display: flex;
+      gap: 1vw;
+      align-items: center;
+
+      .key {
+        color: #ff6a00;
+        font-size: 2.08333vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -1.6px;
+      }
+
+      .value {
+        color: #fff;
+        font-size: 2.08333vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -1.6px;
+      }
+    }
+  }
+}
