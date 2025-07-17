@@ -86,6 +86,7 @@
     display: flex;
 
     .form {
+      letter-spacing: 0.5vw;
       padding: 0 5%;
       position: relative;
       z-index: 1000;
@@ -106,6 +107,7 @@
 
       input,
       select {
+        letter-spacing: 0.1vw;
         cursor: pointer;
         border-radius: 5px;
         background: rgba(217, 217, 217, 0.07);
@@ -117,7 +119,6 @@
         font-style: normal;
         font-weight: 500;
         line-height: normal;
-        letter-spacing: -2.16px;
       }
 
       select {
@@ -147,14 +148,14 @@
       }
     }
 
-    .biglogo{
+    .biglogo {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 50%;
       height: 50vh;
 
-      img{
+      img {
         width: 50%;
         aspect-ratio: 1.9;
         object-fit: cover;

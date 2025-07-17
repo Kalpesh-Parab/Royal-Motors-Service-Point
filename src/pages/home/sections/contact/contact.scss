@@ -80,6 +80,7 @@
 
       input,
       select {
+        letter-spacing: 0.1vw;
         cursor: pointer;
         border-radius: 5px;
         background: rgba(217, 217, 217, 0.07);
@@ -91,7 +92,6 @@
         font-style: normal;
         font-weight: 500;
         line-height: normal;
-        letter-spacing: -2.16px;
       }
 
       select {
