@@ -1,10 +1,11 @@
 import './header.scss';
 import logo from '../../assets/logo.png';
 import royalLogo from '../../assets/royalLogo.png';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -30,7 +31,7 @@ const Header = () => {
 
   return (
     <section className={`Header ${!showHeader ? 'hide' : ''}`}>
-      <div className='logo'>
+      <div className='logo' onClick={() => navigate(`/`)}>
         <img src={logo} alt='' />
       </div>
 
