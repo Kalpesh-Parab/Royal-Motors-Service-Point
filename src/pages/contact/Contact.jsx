@@ -61,7 +61,7 @@ const Contact = () => {
     },
   ];
   return (
-    <section className='Contact'>
+    <section className='ContactPage'>
       <div className='heading'>
         <span>Contact</span> us now!
       </div>
@@ -97,8 +97,13 @@ const Contact = () => {
           title='Royal Motors Location'
         ></iframe>
       </div>
-      <div className='bottom'>
-        <form className='form' ref={form} onSubmit={sendEmail}>
+      <h1>
+        Have questions or need to book a service?
+        <br />
+        <span>We're here to help!</span>
+      </h1>
+      <div className='bottomc'>
+        <form className='formc' ref={form} onSubmit={sendEmail}>
           <label>Name</label>
           <input type='text' name='name' placeholder='Your Name' required />
 

@@ -1,4 +1,4 @@
-.Contact {
+.ContactPage {
   width: 100%;
   display: flex;
   padding: 0;
@@ -82,12 +82,27 @@
     box-shadow: 0 0 20px rgba(255, 106, 0, 0.3);
   }
 
-  .bottom {
-    display: flex;
+  h1 {
+    padding: 0 5%;
+    color: #fff;
+    font-size: 4.427083333vw;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -3.4px;
 
-    .form {
+    span{
+      color: #ff6a00;
+    }
+  }
+
+  .bottomc {
+    display: flex;
+    padding: 0 5%;
+
+    .formc {
+      padding-bottom: 10%;
       letter-spacing: 0.5vw;
-      padding: 0 5%;
       position: relative;
       z-index: 1000;
       width: 50%;
