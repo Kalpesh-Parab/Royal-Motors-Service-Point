@@ -82,7 +82,83 @@
     box-shadow: 0 0 20px rgba(255, 106, 0, 0.3);
   }
 
-  .form{
-    height: 90vh;
+  .bottom {
+    display: flex;
+
+    .form {
+      padding: 0 5%;
+      position: relative;
+      z-index: 1000;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 1vw;
+
+      label {
+        margin-top: 1vw;
+        color: #fff;
+        font-size: 2.1vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -2.88px;
+      }
+
+      input,
+      select {
+        cursor: pointer;
+        border-radius: 5px;
+        background: rgba(217, 217, 217, 0.07);
+        backdrop-filter: blur(11.9px);
+        width: 100%;
+        color: #fff;
+        padding: 1vw;
+        font-size: 1.275vw;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: -2.16px;
+      }
+
+      select {
+        background-color: #302f2f;
+      }
+
+      .contactUs {
+        margin-bottom: 9vw;
+        margin-top: 3vw;
+        cursor: pointer;
+        width: max-content;
+        padding: 0.7vw 1.4vw;
+        border-radius: 9px;
+        background: #fff;
+        display: flex;
+        gap: 0.4vw;
+        color: #000;
+        font-size: 1.6vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -1.92px;
+
+        &:hover {
+          background-color: #ff6a00;
+        }
+      }
+    }
+
+    .biglogo{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      height: 50vh;
+
+      img{
+        width: 50%;
+        aspect-ratio: 1.9;
+        object-fit: cover;
+      }
+    }
   }
 }
