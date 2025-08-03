@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/footer/Footer';
 import ScrollToTop from './components/scrolltoTop/ScrollToTop';
+import InvoiceGenerator from './pages/invoice/Invoice';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/services' element={<Services />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='/invoice' element={<InvoiceGenerator />} />
         </Routes>
         <ToastContainer position='top-right' />
       </div>
