@@ -4,8 +4,10 @@ import s2 from '../../assets/s2.png';
 import s3 from '../../assets/s3.png';
 import s4 from '../../assets/s4.png';
 import mech3 from '../../assets/mech3.png';
+import { useNavigate } from 'react-router-dom';
 
 const Services = () => {
+  const navigate = useNavigate();
   const data = [
     {
       icon: s1,
@@ -77,15 +79,17 @@ const Services = () => {
           </div>
         ))}
       </div>
-      <div className="mechanic">
-        <img src={mech3} alt="" />
-        <div className="slogan">
-          We ensure your bike will be in  good condition and protected!!
+      <div className='mechanic'>
+        <img src={mech3} alt='' />
+        <div className='slogan'>
+          We ensure your bike will be in good condition and protected!!
         </div>
       </div>
-      <div className="shape2">
-
+      <div className='shape2'>
       </div>
+        <div className='invoice' onClick={() => navigate(`/invoice`)}>
+          Invoice
+        </div>
     </section>
   );
 };

@@ -133,4 +133,12 @@ position: absolute;
 bottom: -15%;
 right: 20%;
   }
+
+  .invoice{
+    position: relative;
+    z-index: 10000;
+    width: 30px;
+    height: 10px;
+    cursor: pointer;
+  }
 }
