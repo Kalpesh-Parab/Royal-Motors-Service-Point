@@ -122,3 +122,76 @@
     filter: blur(227.10000610351562px);
   }
 }
+
+@media (max-width: 480px) {
+  .Learn {
+    .top {
+      .tHead {
+        letter-spacing: normal;
+        font-size: 5.5vw;
+      }
+
+      .contactUs {
+        align-items: center;
+        justify-content: center;
+        border-radius: 1.5vw;
+        gap: 2vw;
+        letter-spacing: normal;
+        font-size: 4vw;
+        .arrow {
+          width: 4vw;
+          aspect-ratio: 1;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+    .bottom {
+      background-color: transparent;
+      flex-direction: column;
+      gap: 4.5vw;
+
+      .image {
+        width: 100%;
+        height: 270px;
+
+        .RE {
+          display: none;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .info {
+        gap: 4vw;
+        width: 100%;
+        .title {
+          font-size: 4.5vw;
+          letter-spacing: normal;
+        }
+        p {
+          width: 100%;
+          font-size: 3.6vw;
+          letter-spacing: normal;
+        }
+      }
+    }
+
+    .shape1 {
+      width: 255px;
+      height: 133px;
+      flex-shrink: 0;
+      aspect-ratio: 232/121;
+      filter: blur(227.10000610351562px);
+      bottom: 0%;
+      right: -5%;
+    }
+  }
+}

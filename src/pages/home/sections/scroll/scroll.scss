@@ -40,3 +40,22 @@
     }
   }
 }
+
+  @media (max-width: 480px) {
+  .Scroll{
+    height: 10.8vw;
+
+    .scroll-wrapper{
+
+      .scroll-text{
+        font-size: 3.8vw;
+        letter-spacing: normal;
+
+        .separator{
+          font-size: 4.5vw;
+          margin: 0 3vw;
+        }
+      }
+    }
+  }
+  }
