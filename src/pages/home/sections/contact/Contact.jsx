@@ -4,8 +4,10 @@ import { toast } from 'react-toastify';
 import emailjs from '@emailjs/browser';
 import arrow from '../../../../assets/contact.png';
 import mech from '../../../../assets/mech.png';
+import { useNavigate } from 'react-router-dom';
 
 const Contact = () => {
+  const navigate = useNavigate();
   const form = useRef();
   const [success, setSuccess] = useState(false);
 

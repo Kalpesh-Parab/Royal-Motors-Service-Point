@@ -7,27 +7,24 @@
 }
 
 html,
-body
-#root {
+body #root {
   height: 100%;
   width: 100%;
   font-family: 'Outfit', sans-serif;
   background: #0f0f0f;
 
   .app-content {
-  padding-top: 6vw; 
-  min-height: 100vh;
-  background-color: #0f0f0f;
-}
+    padding-top: 6vw;
+    min-height: 100vh;
+    background-color: #0f0f0f;
+  }
   @media (max-width: 480px) {
-  html,
-body
-#root {
-  padding-top: 12vw;
-}
+    html,
+    body #root {
+      padding-top: 12vw;
+    }
   }
 }
-
 
 a {
   text-decoration: none;

@@ -45,7 +45,7 @@ once I visited this place.”`,
           What Our <br />
           <span> Customers </span>Say
         </div>
-        <div className='contactUs' onClick={() => navigate(`/about`)}>
+        <div className='contactUs' onClick={() => navigate(`/contact`)}>
           Contact us
           <div className='arrow'>
             <img src={arrow} alt='' loading='lazy' />

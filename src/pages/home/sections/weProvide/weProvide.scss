@@ -172,30 +172,62 @@
       }
     }
 
-    .services{
+    .services {
       gap: 5vw;
-      .service{
+      .service {
         height: 50vh;
         width: 75%;
         flex: 0 0 75%;
-        
-        .name{
+
+        .name {
           height: 10vh;
           font-size: 4.5vw;
           letter-spacing: normal;
         }
 
-        .arrow{
+        .arrow {
           width: 4.5vw;
           aspect-ratio: 1;
 
-          img{
+          img {
             width: 100%;
             height: 100%;
             object-fit: contain;
           }
         }
       }
+    }
+
+    .subHeading {
+      padding-top: 5%;
+      font-size: 4vw;
+      letter-spacing: normal;
+    }
+
+    .banner {
+      height: 220px;
+      .royalLogo {
+        width: 15%;
+        height: 15%;
+        top: 5%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+      .logo{
+      width: 15%;
+      height: 15%;
+      top: 5%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
     }
   }
 }

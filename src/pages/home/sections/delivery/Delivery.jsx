@@ -2,8 +2,10 @@ import './delivery.scss';
 import arrow from '../../../../assets/contact.png';
 import royalLogo from '../../../../assets/royalLogo.png';
 import logoWhite from '../../../../assets/logoWhite.png';
+import { useNavigate } from 'react-router-dom';
 
 const Delivery = () => {
+  const navigate = useNavigate();
   return (
     <section className='Delivery'>
       <div className='top'>
@@ -11,7 +13,7 @@ const Delivery = () => {
           <span>Same-Day</span>
           <br /> Delivery Available
         </div>
-        <div className='contactUs' onClick={() => navigate(`/about`)}>
+        <div className='contactUs' onClick={() => navigate(`/contact`)}>
           Contact us
           <div className='arrow'>
             <img src={arrow} alt='' loading='lazy' />
