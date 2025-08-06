@@ -85,11 +85,7 @@ const Services = () => {
           We ensure your bike will be in good condition and protected!!
         </div>
       </div>
-      <div className='shape2'>
-      </div>
-        <div className='invoice' onClick={() => navigate(`/invoice`)}>
-          Invoice
-        </div>
+      <div className='shape2'></div>
     </section>
   );
 };
