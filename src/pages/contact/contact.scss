@@ -1,7 +1,7 @@
 .ContactPage {
   width: 100%;
   display: flex;
-  padding: 0;
+  padding: 5% 0;
   flex-direction: column;
   gap: 6.0417vw;
   position: relative;
@@ -33,22 +33,24 @@
       gap: 1.822916667vw;
       align-items: center;
 
-      .key {
-        color: #ff6a00;
-        font-size: 2.08333vw;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        letter-spacing: -1.6px;
-      }
+      .right {
+        .key {
+          color: #ff6a00;
+          font-size: 2.08333vw;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: -1.6px;
+        }
 
-      .value {
-        color: #fff;
-        font-size: 2.08333vw;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        letter-spacing: -1.6px;
+        .value {
+          color: #fff;
+          font-size: 2.08333vw;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: -1.6px;
+        }
       }
     }
   }
@@ -92,7 +94,7 @@
     line-height: normal;
     letter-spacing: -3.4px;
 
-    span{
+    span {
       color: #ff6a00;
     }
   }
@@ -180,8 +182,102 @@
   }
 }
 
-  @media (max-width: 480px) {
-  .ContactPage{
-    
+@media (max-width: 480px) {
+  .ContactPage {
+    .mechanic {
+      display: none;
+    }
+
+    .heading {
+      letter-spacing: normal;
+      font-size: 7vw;
+    }
+
+    .infoWrapper {
+      padding: 0 8vw;
+      width: 100%;
+      .info {
+        gap: 10%;
+        .icon {
+          img {
+            width: 6vw;
+          }
+        }
+
+        .right {
+          .key {
+            letter-spacing: normal;
+            font-size: 4vw;
+          }
+
+          .value {
+            letter-spacing: normal;
+            font-size: 4vw;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    .shape2 {
+      width: 500px;
+      height: 300px;
+    }
+
+    .map {
+      height: 45vh;
+    }
+
+    h1 {
+      letter-spacing: normal;
+      font-size: 5vw;
+    }
+    .bottomc {
+      flex-direction: column;
+      padding-bottom: 23vh;
+
+      .formc {
+        padding: 0;
+        gap: 2vw;
+        width: 100%;
+
+        label {
+          letter-spacing: normal;
+          font-size: 4vw;
+        }
+
+        input,
+        select {
+          width: 100%;
+          padding: 3vw 5vw;
+          backdrop-filter: blur(100px);
+          font-size: 4vw;
+        }
+        .contactUs {
+          padding: 2vw;
+          align-items: center;
+          justify-content: center;
+          border-radius: 1.5vw;
+          gap: 2vw;
+          font-weight: 600;
+          letter-spacing: normal;
+          font-size: 3.7vw;
+          .arrow {
+            width: 4vw;
+            aspect-ratio: 1;
+
+            img {
+              width: 70%;
+              height: 70%;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+      .biglogo {
+        width: 100%;
+        height: 10vh;
+      }
+    }
   }
-  }
+}

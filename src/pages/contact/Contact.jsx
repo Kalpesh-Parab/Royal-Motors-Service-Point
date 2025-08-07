@@ -68,7 +68,7 @@ const Contact = () => {
       <div className='infoWrapper'>
         {info.map((inf) => (
           <div className='info'>
-            <div className='left'>
+            <div className='icon'>
               <img src={inf.icon} alt='' />
             </div>
             <div className='right'>
