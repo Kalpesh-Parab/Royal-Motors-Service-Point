@@ -84,3 +84,59 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .Footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 30vh;
+    margin-top: 25vh;
+
+    .image {
+      right: 0;
+      width: 100%;
+      top: -131%;
+    }
+
+    .navlinks {
+      .link {
+        padding: 4vw 1.5vw;
+        font-size: 2.8vw;
+        letter-spacing: normal;
+
+        img {
+          width: 2vw;
+          aspect-ratio: 1;
+        }
+      }
+    }
+
+    .bottom {
+      padding: 4vw;
+      width: 100%;
+      justify-content: space-between;
+
+      .tab {
+        letter-spacing: normal;
+        font-size: 2.7vw;
+        width: 45%;
+
+        a {
+          letter-spacing: normal;
+          font-size: 2.7vw;
+        }
+
+        img {
+          width: 20%;
+          height: 50%;
+          object-fit: contain;
+        }
+      }
+
+      .tab:nth-child(2) {
+        display: none;
+      }
+    }
+  }
+}
