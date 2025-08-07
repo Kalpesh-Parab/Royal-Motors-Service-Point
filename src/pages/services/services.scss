@@ -97,6 +97,7 @@
     }
   }
   .mechanic {
+    position: relative;
     height: 120vh;
     img {
       z-index: 2;
@@ -150,6 +151,8 @@
     }
 
     .cards {
+      position: relative;
+      z-index: 10;
       gap: 10vw;
       .card {
         border-radius: 10%;
@@ -180,18 +183,26 @@
       }
     }
 
+    .shape2{
+height: 500px;}
+
     .mechanic{
-      height: 40vh;
+      position: relative;
+      height: 30vh;
       img{
-        bottom: -15%;
+        display: none;
+        top: -100%;
+        bottom: 0%;
         scale: .35;
-        left: -70%;
+        left: -95%;
       }
 
       .slogan{
-        margin: 10vw 4vw;
+        text-align: center;
+        width: 100%;
+        margin: 7vw 0;
         letter-spacing: normal;
-        font-size: 4vw;
+        font-size: 5vw;
       }
     }
   }
