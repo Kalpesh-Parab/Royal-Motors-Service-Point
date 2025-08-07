@@ -1,6 +1,6 @@
 .About {
   width: 100%;
-  padding: 3% 5% 30% 5%;
+  padding: 5% 5% 30% 5%;
   display: flex;
   flex-direction: column;
   gap: 2vw;
@@ -33,3 +33,20 @@
     object-fit: contain;
   }
 }
+
+  @media (max-width: 480px) {
+  .About{
+    .heading{
+      letter-spacing: normal;
+      font-size: 7vw;
+    }
+
+    .desc{
+      letter-spacing: normal;
+      font-size: 4vw;
+    }
+    img{
+      height: 35vh;
+    }
+  }
+  }
