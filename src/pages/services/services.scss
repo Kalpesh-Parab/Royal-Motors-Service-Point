@@ -1,7 +1,7 @@
 .Services {
-    position: relative;
+  position: relative;
   width: 100%;
-  padding: 2.5% 5%;
+  padding: 5.5% 5%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -32,8 +32,8 @@
     gap: 2vw;
 
     .card {
-        border-radius: 1vw;
-        background-color: #fff;
+      border-radius: 1vw;
+      background-color: #fff;
       width: 45%;
       height: 80vh;
       display: flex;
@@ -66,79 +66,132 @@
       }
 
       .points {
-        li{
-
-            color: #000;
-            font-size: 1.25vw;
-            font-style: normal;
-            list-style: disc;
-            font-weight: 400;
-            line-height: 184.797%; /* 44.351px */
-            letter-spacing: -0.96px;
+        li {
+          color: #000;
+          font-size: 1.25vw;
+          font-style: normal;
+          list-style: disc;
+          font-weight: 400;
+          line-height: 184.797%; /* 44.351px */
+          letter-spacing: -0.96px;
         }
       }
-      
-          &:hover{
-              background-color: #ff6a00;
 
-              .icon{
-                background-color: #000;
-              }
+      &:hover {
+        background-color: #ff6a00;
 
-              .title{
-                color: #fff;
-              }
+        .icon {
+          background-color: #000;
+        }
 
-              .points{
-                li{
-                    color: #fff;
-                }
-              }
+        .title {
+          color: #fff;
+        }
+
+        .points {
+          li {
+            color: #fff;
           }
+        }
+      }
     }
   }
-  .mechanic{
+  .mechanic {
     height: 120vh;
-    img{
-        z-index: 2;
-        position: absolute;
-        bottom: 0%;
-        left: 25%;
+    img {
+      z-index: 2;
+      position: absolute;
+      bottom: 0%;
+      left: 25%;
     }
 
-    .slogan{
-        z-index: 2;
-        position: relative;
-        margin: 10vw 7vw;
-        color: #FFF;
-        width: 30%;
-font-size: 3.333vw;
-font-style: normal;
-font-weight: 600;
-line-height: 113.683%; /* 72.757px */
-letter-spacing: -2.56px;
+    .slogan {
+      z-index: 2;
+      position: relative;
+      margin: 10vw 7vw;
+      color: #fff;
+      width: 30%;
+      font-size: 3.333vw;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 113.683%; /* 72.757px */
+      letter-spacing: -2.56px;
     }
   }
 
-  .shape2{
+  .shape2 {
     z-index: 1;
     width: 939px;
-height: 1068px;
-flex-shrink: 0;
-border-radius: 1068px;
-background: #FF6A00;
-mix-blend-mode: plus-lighter;
-filter: blur(227.10000610351562px);
-position: absolute;
-bottom: -15%;
-right: 20%;
+    height: 1068px;
+    flex-shrink: 0;
+    border-radius: 1068px;
+    background: #ff6a00;
+    mix-blend-mode: plus-lighter;
+    filter: blur(227.10000610351562px);
+    position: absolute;
+    bottom: -15%;
+    right: 20%;
   }
 
-  .invoice{
+  .invoice {
     position: relative;
     z-index: 10000;
     width: 30px;
     height: 10px;
     cursor: pointer;
+  }
+}
+
+@media (max-width: 480px) {
+  .Services {
+    .tHead {
+      letter-spacing: normal;
+      font-size: 7vw;
+    }
+
+    .cards {
+      .card {
+        border-radius: 10%;
+        padding: 4vw;
+        width: 100%;
+        height: 45vh;
+
+        .icon {
+          width: 20%;
+          border-radius: 50%;
+          padding: 2.5% 5%;
+        }
+
+        .title {
+          letter-spacing: normal;
+          font-size: 5vw;
+        }
+
+        .points {
+          padding-left: 4vw;
+          ul {
+            li {
+              letter-spacing: normal;
+              font-size: 3.5vw;
+            }
+          }
+        }
+      }
+    }
+
+    .mechanic{
+      height: 55vh;
+      img{
+        bottom: -20%;
+        scale: .35;
+        left: -85%;
+      }
+
+      .slogan{
+        margin: 10vw 4vw;
+        letter-spacing: normal;
+        font-size: 4vw;
+      }
+    }
   }
 }
