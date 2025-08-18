@@ -1,5 +1,10 @@
 import './App.scss';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import Header from './components/header/Header';
 import About from './pages/about/About';
 import Home from './pages/home/Home';
@@ -11,11 +16,16 @@ import Footer from './components/footer/Footer';
 import ScrollToTop from './components/scrolltoTop/ScrollToTop';
 import InvoiceGenerator from './pages/invoice/Invoice';
 
-function App() {
+function AppLayout() {
+  const location = useLocation();
+
+  // Check if current route is /invoice
+  const hideLayout = location.pathname === '/invoice';
+
   return (
-    <Router>
-      <ScrollToTop/>
-      <Header />
+    <>
+      <ScrollToTop />
+      {!hideLayout && <Header />}
       <div className='app-content'>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -26,7 +36,15 @@ function App() {
         </Routes>
         <ToastContainer position='top-right' />
       </div>
-      <Footer/>
+      {!hideLayout && <Footer />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppLayout />
     </Router>
   );
 }
