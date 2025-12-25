@@ -11,7 +11,7 @@ export default function AdminLogin({ onSuccess }) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        'https://royal-backend-1-hzkn.onrender.com',
+        'https://royal-backend-1-hzkn.onrender.com/auth/login',
         {
           email,
           password,
