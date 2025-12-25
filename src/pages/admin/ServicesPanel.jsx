@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import "./servicesPanel.scss";
-import API from "./adminApi";
-import { toast } from "react-toastify";
+import { useEffect, useState } from 'react';
+import './servicesPanel.scss';
+import API from './adminApi';
+import { toast } from 'react-toastify';
 
 export default function ServicesPanel() {
   const [services, setServices] = useState([]);
@@ -9,10 +9,10 @@ export default function ServicesPanel() {
 
   const fetchServices = async () => {
     try {
-      const res = await API.get("/api/services");
+      const res = await API.get('/api/services');
       setServices(res.data);
     } catch (err) {
-      toast.error("Failed to load services");
+      toast.error('Failed to load services');
     } finally {
       setLoading(false);
     }
@@ -23,18 +23,18 @@ export default function ServicesPanel() {
   }, []);
 
   if (loading) {
-    return <div className="services-loading">Loading services...</div>;
+    return <div className='services-loading'>Loading services...</div>;
   }
 
   return (
-    <div className="services-panel">
+    <div className='services-panel'>
       {services.map((category) => (
-        <div className="category-card" key={category._id}>
-          <div className="category-header">
+        <div className='category-card' key={category._id}>
+          <div className='category-header'>
             <h3>{category.categoryName}</h3>
           </div>
 
-          <ul className="service-list">
+          <ul className='service-list'>
             {category.services.map((service, index) => (
               <li key={index}>{service}</li>
             ))}
