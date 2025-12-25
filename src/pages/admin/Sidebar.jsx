@@ -1,4 +1,4 @@
-import "./Sidebar.scss";
+import "./sidebar.scss";
 
 export default function Sidebar() {
   return (
