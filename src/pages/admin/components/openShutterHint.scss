@@ -1,0 +1,21 @@
+.open-hint {
+  position: fixed;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: #ff6a00;
+  animation: blink 1.2s infinite;
+  z-index: 8;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}

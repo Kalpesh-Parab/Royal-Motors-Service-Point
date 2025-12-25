@@ -1,0 +1,27 @@
+.dashboard {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  background: #0b0b0b;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s ease;
+}
+
+.dashboard.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+
+  h1 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    letter-spacing: 1px;
+  }
+}

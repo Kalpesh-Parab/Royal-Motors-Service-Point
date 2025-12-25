@@ -1,0 +1,35 @@
+.admin-login {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.12);
+  padding: 40px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+  width: 300px;
+
+  h2 {
+    color: #fff;
+    text-align: center;
+  }
+
+  input {
+    padding: 10px;
+    border: none;
+    outline: none;
+  }
+
+  button {
+    padding: 10px;
+    background: #ff6a00;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

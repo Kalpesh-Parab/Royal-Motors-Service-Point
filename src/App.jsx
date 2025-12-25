@@ -15,12 +15,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/footer/Footer';
 import ScrollToTop from './components/scrolltoTop/ScrollToTop';
 import InvoiceGenerator from './pages/invoice/Invoice';
+import Admin from './pages/admin/Admin';
 
 function AppLayout() {
   const location = useLocation();
 
   // Check if current route is /invoice
-  const hideLayout = location.pathname === '/invoice';
+  const hideLayout =
+    location.pathname === '/invoice' || location.pathname.startsWith('/admin');
 
   return (
     <>
@@ -33,6 +35,7 @@ function AppLayout() {
           <Route path='/services' element={<Services />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/invoice' element={<InvoiceGenerator />} />
+          <Route path='/admin' element={<Admin />} />
         </Routes>
         <ToastContainer position='top-right' />
       </div>

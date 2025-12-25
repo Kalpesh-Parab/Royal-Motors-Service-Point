@@ -1,0 +1,46 @@
+.services-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.category-card {
+  background: #141414;
+  border: 1px solid #222;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  h3 {
+    font-size: 18px;
+    color: #ff6a00;
+  }
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 6px 0;
+    border-bottom: 1px dashed #333;
+    font-size: 14px;
+    color: #ccc;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.services-loading {
+  color: #aaa;
+  font-size: 16px;
+}

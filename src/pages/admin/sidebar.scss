@@ -1,0 +1,44 @@
+.sidebar {
+  width: 260px;
+  background: #111;
+  border-right: 1px solid #222;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+nav{
+    display: flex;
+    flex-direction: column;
+}
+nav button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 12px 0;
+  text-align: left;
+  cursor: pointer;
+  font-size: 15px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #fff;
+  }
+
+  &.active {
+    color: #ff6a00;
+    font-weight: bold;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
