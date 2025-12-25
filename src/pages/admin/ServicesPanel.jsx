@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./ServicesPanel.scss";
+import "./servicesPanel.scss";
 import API from "./adminApi";
 import { toast } from "react-toastify";
 
