@@ -1,5 +1,4 @@
 .admin-wrapper {
-  height: 100vh;
   background: black;
   position: relative;
   overflow: hidden;
@@ -13,22 +12,8 @@
   z-index: 1;
 }
 
-/* Make it scrollable */
 .scroll-driver::after {
   content: '';
   display: block;
   height: 200vh;
-}
-
-.logout-btn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
-  padding: 10px 18px;
-  background: #ff6a00;
-  border: none;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
 }

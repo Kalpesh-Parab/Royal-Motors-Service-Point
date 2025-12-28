@@ -10,47 +10,57 @@ export default function Admin() {
   const { isLoggedIn, login, logout } = useAdminAuth();
 
   const scrollRef = useRef(null);
+
   const [shutterProgress, setShutterProgress] = useState(0);
   const [canOpen, setCanOpen] = useState(false);
+  const [isShutterOpen, setIsShutterOpen] = useState(false);
 
-  // Restore shutter state on refresh
+  // Restore shutter state
   useEffect(() => {
     const open = localStorage.getItem('shutter_open') === 'true';
 
     if (isLoggedIn && open) {
       setShutterProgress(1);
+      setIsShutterOpen(true);
       document.body.style.overflow = 'auto';
     } else {
       document.body.style.overflow = 'hidden';
     }
   }, [isLoggedIn]);
 
-  // REAL scroll → shutter movement (touchpad friendly)
+  // Scroll → shutter movement
   useEffect(() => {
-    if (!canOpen || !scrollRef.current) return;
+    if (!canOpen || !scrollRef.current || isShutterOpen) return;
 
     const el = scrollRef.current;
 
     const onScroll = () => {
       const maxScroll = el.scrollHeight - el.clientHeight;
-      const progress = Math.min(el.scrollTop / maxScroll, 1);
+      if (maxScroll <= 0) return;
+
+      const raw = el.scrollTop / maxScroll;
+      const progress = Math.min(Math.max(raw, 0), 1);
 
       setShutterProgress(progress);
 
-      if (progress >= 1) {
+      // 🔒 HARD LOCK
+      if (progress >= 0.98) {
+        setShutterProgress(1);
+        setIsShutterOpen(true);
+        setCanOpen(false);
         localStorage.setItem('shutter_open', 'true');
         document.body.style.overflow = 'auto';
-        setCanOpen(false);
       }
     };
 
     el.addEventListener('scroll', onScroll);
     return () => el.removeEventListener('scroll', onScroll);
-  }, [canOpen]);
+  }, [canOpen, isShutterOpen]);
 
   const handleLoginSuccess = (token) => {
     login(token);
     setShutterProgress(0);
+    setIsShutterOpen(false);
     setCanOpen(true);
 
     if (scrollRef.current) {
@@ -60,22 +70,27 @@ export default function Admin() {
 
   const handleLogout = () => {
     localStorage.removeItem('shutter_open');
+    setIsShutterOpen(false);
+    setShutterProgress(0);
+    setCanOpen(false);
     logout();
   };
 
   return (
-    <div className='admin-wrapper'>
-      <Shutter progress={shutterProgress} />
+    <div className="admin-wrapper">
+      <Shutter progress={shutterProgress} isOpen={isShutterOpen} />
 
       {!isLoggedIn && <AdminLogin onSuccess={handleLoginSuccess} />}
 
-      {isLoggedIn && shutterProgress < 1 && <OpenShutterHint />}
+      {isLoggedIn && !isShutterOpen && <OpenShutterHint />}
 
-      {isLoggedIn && shutterProgress === 1 && <Dashboard/>}
+      {isLoggedIn && isShutterOpen && (
+        <Dashboard onLogout={handleLogout} />
+      )}
 
-      {/* Invisible scroll engine */}
-      {isLoggedIn && canOpen && (
-        <div ref={scrollRef} className='scroll-driver' />
+      {/* Scroll driver only while opening */}
+      {isLoggedIn && !isShutterOpen && canOpen && (
+        <div ref={scrollRef} className="scroll-driver" />
       )}
     </div>
   );
