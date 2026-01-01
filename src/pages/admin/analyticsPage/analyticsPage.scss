@@ -1,0 +1,152 @@
+.ap-container {
+  margin-top: 50px;
+  padding: 24px;
+  background: #111;
+  color: #fff;
+}
+
+.ap-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.ap-controls {
+  display: flex;
+  gap: 14px;
+}
+
+.ap-toggle {
+  display: flex;
+  gap: 8px;
+
+  button {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #ff6a00;
+    background: transparent;
+    color: #ff6a00;
+    cursor: pointer;
+
+    &.active {
+      background: #ff6a00;
+      color: #000;
+    }
+  }
+}
+
+.ap-picker {
+  display: flex;
+  gap: 8px;
+
+  select {
+    background: #1c1c1c;
+    color: #ff6a00;
+    border: 1px solid #ff6a00;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+}
+
+.ap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.ap-card {
+  background: #1c1c1c;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.ap-card h4 {
+  font-size: 13px;
+  color: #ff6a00;
+}
+
+.ap-big {
+  font-size: 52px;
+  font-weight: 700;
+}
+
+.ap-big.accent {
+  color: #ff6a00;
+}
+
+.ap-card span {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.ap-categories {
+  grid-column: span 2;
+}
+
+.ap-bar-row {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 260px 1fr 120px;
+  gap: 12px;
+}
+
+.ap-bar-track {
+  background: #2a2a2a;
+  height: 10px;
+  border-radius: 10px;
+}
+
+.ap-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6a00, #ffb066);
+  animation: apGrow 0.8s ease-out;
+}
+
+.ap-bar-amount {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* SERVICE MIX */
+.ap-mix-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 60px;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.ap-mix-bar {
+  height: 8px;
+  background: #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+
+  div {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6a00, #ffb066);
+  }
+}
+
+.ap-empty {
+  text-align: center;
+  color: #999;
+  padding: 60px;
+}
+
+@keyframes apGrow {
+  from {
+    width: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .ap-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-categories {
+    grid-column: span 1;
+  }
+}

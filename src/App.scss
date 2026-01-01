@@ -36,3 +36,15 @@ ul {
   padding: 0;
   margin: 0;
 }
+
+.print-mode {
+  background: #ffffff !important;
+  min-height: auto !important;
+  padding: 0 !important;
+}
+
+/* Kill dark overlays, gradients, shadows */
+.print-mode * {
+  background: transparent;
+  box-shadow: none !important;
+}

@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import ServiceList from './ServiceList';
 
 export default function CategoryRow({
@@ -5,6 +6,7 @@ export default function CategoryRow({
   categories,
   setCategories,
   availableCategories,
+  removeCategory,
 }) {
   const updateCategory = (patch) => {
     setCategories((prev) =>
@@ -12,42 +14,73 @@ export default function CategoryRow({
     );
   };
 
+  const selectedCategoryIds = categories
+    .filter((c) => c.id !== cat.id)
+    .map((c) => c.categoryId);
+
   const categoryData = availableCategories.find(
     (c) => c._id === cat.categoryId
   );
 
+  const handleCategoryChange = (e) => {
+    const selectedId = e.target.value;
+
+    if (selectedCategoryIds.includes(selectedId)) {
+      toast.warning('Category already selected. Please choose another.');
+      return;
+    }
+
+    const selected = availableCategories.find((c) => c._id === selectedId);
+
+    updateCategory({
+      categoryId: selected._id,
+      categoryName: selected.categoryName,
+      services: [],
+      pricingMode: 'SERVICE',
+      categoryPrice: 0,
+    });
+  };
+
   return (
-    <div className="category-row">
-      <label className="field-label">Service Category</label>
+    <div className='category-row'>
+      <div className='row-header'>
+        <label className='field-label'>Service Category</label>
+
+        {/* ❌ REMOVE CATEGORY */}
+        <button
+          type='button'
+          className='remove-category'
+          onClick={() => removeCategory(cat.id)}
+        >
+          ✕ Remove
+        </button>
+      </div>
 
       <select
-        className="category-select"
+        className='category-select'
         value={cat.categoryId}
-        onChange={(e) => {
-          const selected = availableCategories.find(
-            (c) => c._id === e.target.value
-          );
-          updateCategory({
-            categoryId: selected._id,
-            categoryName: selected.categoryName,
-            services: [],
-          });
-        }}
+        onChange={handleCategoryChange}
       >
-        <option value="">Select Category</option>
-        {availableCategories.map((c) => (
-          <option key={c._id} value={c._id}>
-            {c.categoryName}
-          </option>
-        ))}
+        <option value=''>Select Category</option>
+
+        {availableCategories.map((c) => {
+          const disabled = selectedCategoryIds.includes(c._id);
+
+          return (
+            <option key={c._id} value={c._id} disabled={disabled}>
+              {c.categoryName}
+              {disabled ? ' (Already selected)' : ''}
+            </option>
+          );
+        })}
       </select>
 
       {categoryData && (
         <>
-          <div className="pricing-toggle">
+          <div className='pricing-toggle'>
             <label>
               <input
-                type="radio"
+                type='radio'
                 checked={cat.pricingMode === 'SERVICE'}
                 onChange={() => updateCategory({ pricingMode: 'SERVICE' })}
               />
@@ -56,7 +89,7 @@ export default function CategoryRow({
 
             <label>
               <input
-                type="radio"
+                type='radio'
                 checked={cat.pricingMode === 'CATEGORY'}
                 onChange={() => updateCategory({ pricingMode: 'CATEGORY' })}
               />

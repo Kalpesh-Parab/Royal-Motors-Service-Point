@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './servicesPanel.scss';
-import API from './adminApi';
+import API from '../adminApi';
 import { toast } from 'react-toastify';
 
 export default function ServicesPanel() {

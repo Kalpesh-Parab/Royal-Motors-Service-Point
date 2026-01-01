@@ -1,5 +1,4 @@
-
-import CategoryRow from './CategoryRow';
+import CategoryRow from "./CategoryRow";
 
 export default function ServiceCategories({
   availableCategories,
@@ -10,14 +9,18 @@ export default function ServiceCategories({
     setCategories((prev) => [
       ...prev,
       {
-        id: crypto.randomUUID(), // 🔑 identity
-        categoryId: '',
-        categoryName: '',
-        pricingMode: 'SERVICE',
+        id: crypto.randomUUID(),
+        categoryId: "",
+        categoryName: "",
+        pricingMode: "SERVICE",
         services: [],
         categoryPrice: 0,
       },
     ]);
+  };
+
+  const removeCategory = (id) => {
+    setCategories((prev) => prev.filter((c) => c.id !== id));
   };
 
   return (
@@ -27,8 +30,9 @@ export default function ServiceCategories({
           key={cat.id}
           cat={cat}
           categories={categories}
-          setCategories={setCategories}
           availableCategories={availableCategories}
+          setCategories={setCategories}
+          removeCategory={removeCategory} // 👈 NEW
         />
       ))}
 

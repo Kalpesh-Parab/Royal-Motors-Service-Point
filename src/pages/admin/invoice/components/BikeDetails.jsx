@@ -25,66 +25,75 @@ export default function BikeDetails({ form, onChange }) {
     <section className='card'>
       <h3>Bike Details</h3>
 
-      <div className='grid'>
-        <input
-          name='bikeNumber'
-          placeholder='Bike Number'
-          value={form.bikeNumber}
-          onChange={onChange}
-        />
-
-        {/* BIKE MODEL DROPDOWN */}
-        <select name='bikeModel' value={form.bikeModel} onChange={onChange}>
-          <option value=''>Select Bike Model</option>
-
-          {BIKE_MODELS.map((model) => (
-            <option key={model} value={model}>
-              {model}
-            </option>
-          ))}
-
-          <option value='OTHER'>Other (Manual Entry)</option>
-        </select>
-
-        {/* CUSTOM MODEL INPUT */}
-        {isCustomModel && (
+      <div className='BikeDetails-form'>
+        <div className='up'>
           <input
-            name='bikeModel'
-            placeholder='Enter Bike Model'
-            value={form.customBikeModel || ''}
-            onChange={(e) =>
-              onChange({
-                target: {
-                  name: 'customBikeModel',
-                  value: e.target.value,
-                },
-              })
-            }
+            name='bikeNumber'
+            placeholder='Bike Number'
+            value={form.bikeNumber}
+            onChange={onChange}
           />
-        )}
 
-        <input
-          name='bikeKms'
-          placeholder='Bike KMs'
-          value={form.bikeKms}
-          onChange={onChange}
-        />
+          {/* BIKE MODEL DROPDOWN */}
+          <select name='bikeModel' value={form.bikeModel} onChange={onChange}>
+            <option value=''>Select Bike Model</option>
 
-        <input type='date' name='date' value={form.date} onChange={onChange} />
+            {BIKE_MODELS.map((model) => (
+              <option key={model} value={model}>
+                {model}
+              </option>
+            ))}
 
-        <input
-          type='time'
-          name='inTime'
-          value={form.inTime}
-          onChange={onChange}
-        />
+            <option value='OTHER'>Other (Manual Entry)</option>
+          </select>
 
-        <input
-          type='time'
-          name='outTime'
-          value={form.outTime}
-          onChange={onChange}
-        />
+          {/* CUSTOM MODEL INPUT */}
+          {isCustomModel && (
+            <input
+              name='bikeModel'
+              placeholder='Enter Bike Model'
+              value={form.customBikeModel || ''}
+              onChange={(e) =>
+                onChange({
+                  target: {
+                    name: 'customBikeModel',
+                    value: e.target.value,
+                  },
+                })
+              }
+            />
+          )}
+
+          <input
+            name='bikeKms'
+            placeholder='Bike KMs'
+            value={form.bikeKms}
+            onChange={onChange}
+          />
+        </div>
+        <div className='down'>
+          <div className='date'>
+            <label>Bike In-Date</label>
+
+            <input
+              type='date'
+              name='date'
+              value={form.date}
+              onChange={onChange}
+            />
+          </div>
+          <div className='time'>
+            <label>Bike In-Time</label>
+
+            <input
+              type='time'
+              name='inTime'
+              value={form.inTime}
+              onChange={onChange}
+            />
+          </div>
+
+        </div>
       </div>
     </section>
   );

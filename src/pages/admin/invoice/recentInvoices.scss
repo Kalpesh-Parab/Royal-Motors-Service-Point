@@ -1,0 +1,45 @@
+.recent-invoices {
+  margin-top: 2vw;
+  h3 {
+    font-size: 1.5vw;
+    margin-bottom: 1vw;
+  }
+  .invoice-list {
+    display: flex;
+    gap: 10px;
+
+    .invoice-card {
+      border: 1px dotted #fff;
+      padding: 2vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2vw;
+
+      .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1vw;
+        font-size: 1vw;
+        strong {
+          color: orange;
+          letter-spacing: 4px;
+        }
+
+        p {
+          font-size: 24px;
+          font-weight: 700;
+        }
+      }
+
+      button {
+        &:hover {
+          background-color: transparent;
+          color: #ff6a00;
+        }
+      }
+    }
+  }
+}

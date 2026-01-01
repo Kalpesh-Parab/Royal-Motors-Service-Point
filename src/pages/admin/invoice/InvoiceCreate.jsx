@@ -1,4 +1,4 @@
-import "./invoiceCreate.scss"
+import './invoiceCreate.scss';
 import { useEffect, useState } from 'react';
 import API from '../adminApi';
 import { toast } from 'react-toastify';
@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import OwnerDetails from './components/OwnerDetails';
 import BikeDetails from './components/BikeDetails';
 import ServiceCategories from './components/ServiceCategories';
+import RecentInvoices from './RecentInvoices';
 
 export default function InvoiceCreate() {
   const getCurrentTime = () => {
@@ -26,11 +27,12 @@ export default function InvoiceCreate() {
     bikeKms: '',
     inTime: '',
     outTime: '',
-    date: new Date().toISOString().slice(0, 10),
+    date: '',
   });
 
   const [availableCategories, setAvailableCategories] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [recentInvoices, setRecentInvoices] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -41,57 +43,48 @@ export default function InvoiceCreate() {
     API.get('api/services')
       .then((res) => setAvailableCategories(res.data))
       .catch(() => toast.error('Failed to load services'));
+
+    loadRecentInvoices();
   }, []);
+
+  const loadRecentInvoices = async () => {
+    try {
+      const res = await API.get('api/invoices');
+      setRecentInvoices(res.data.slice(0, 3));
+    } catch {
+      toast.error('Failed to load recent invoices');
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === 'bikeNumber') {
       const cleaned = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-      setForm((prev) => ({ ...prev, [name]: cleaned }));
+      setForm((prev) => ({ ...prev, bikeNumber: cleaned }));
       return;
     }
 
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🚀 SUBMIT HANDLER
   const handleSubmit = async () => {
     try {
       if (!form.bikeNumber || !form.ownerName || !form.mobile) {
         return toast.error('Please fill owner & bike details');
       }
 
+      if (!form.date || !form.inTime) {
+        return toast.error('Please select bike in date & time');
+      }
+
       if (!categories.length) {
         return toast.error('Add at least one service category');
       }
 
-      // Validate categories
-      for (const cat of categories) {
-        if (!cat.services.length) {
-          return toast.error(
-            `Select at least one service in ${cat.categoryName}`
-          );
-        }
-
-        if (cat.pricingMode === 'SERVICE') {
-          const invalid = cat.services.some((s) => !s.price || s.price <= 0);
-          if (invalid) {
-            return toast.error(
-              `Enter prices for all services in ${cat.categoryName}`
-            );
-          }
-        }
-
-        if (cat.pricingMode === 'CATEGORY' && !cat.categoryPrice) {
-          return toast.error(
-            `Enter category price for ${cat.categoryName}`
-          );
-        }
-      }
-
       const payload = {
         bikeNumber: form.bikeNumber,
+        invoiceDate: form.date,
         owner: {
           name: form.ownerName,
           address: form.address,
@@ -100,9 +93,7 @@ export default function InvoiceCreate() {
         },
         bike: {
           model:
-            form.bikeModel === 'OTHER'
-              ? form.customBikeModel
-              : form.bikeModel,
+            form.bikeModel === 'OTHER' ? form.customBikeModel : form.bikeModel,
           kms: Number(form.bikeKms),
         },
         timings: {
@@ -123,23 +114,10 @@ export default function InvoiceCreate() {
 
       setLoading(true);
       await API.post('api/invoices', payload);
-      toast.success('Invoice created successfully');
+      toast.success('Invoice created');
 
-      // reset
-      setForm({
-        bikeNumber: '',
-        ownerName: '',
-        address: '',
-        mobile: '',
-        email: '',
-        bikeModel: '',
-        customBikeModel: '',
-        bikeKms: '',
-        inTime: '',
-        outTime: getCurrentTime(),
-        date: new Date().toISOString().slice(0, 10),
-      });
       setCategories([]);
+      loadRecentInvoices();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to create invoice');
     } finally {
@@ -148,7 +126,7 @@ export default function InvoiceCreate() {
   };
 
   return (
-    <div className="invoice-create">
+    <div className='invoice-create'>
       <h2>Create Invoice</h2>
 
       <OwnerDetails form={form} onChange={handleChange} />
@@ -160,13 +138,11 @@ export default function InvoiceCreate() {
         setCategories={setCategories}
       />
 
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        style={{ marginTop: 20 }}
-      >
-        {loading ? 'Creating Invoice...' : 'Create Invoice'}
+      <button onClick={handleSubmit} disabled={loading} style={{marginTop:'2vw'}}>
+        {loading ? 'Creating...' : 'Create Invoice'}
       </button>
+
+      <RecentInvoices invoices={recentInvoices} />
     </div>
   );
 }

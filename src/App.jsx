@@ -16,11 +16,14 @@ import Footer from './components/footer/Footer';
 import ScrollToTop from './components/scrolltoTop/ScrollToTop';
 import InvoiceGenerator from './pages/invoice/Invoice';
 import Admin from './pages/admin/Admin';
+import InvoicePrintPage from './pages/admin/invoice/InvoicePrintPage';
 
 function AppLayout() {
   const location = useLocation();
 
   // Check if current route is /invoice
+  const isPrintPage = location.pathname.includes('/print');
+
   const hideLayout =
     location.pathname === '/invoice' || location.pathname.startsWith('/admin');
 
@@ -28,7 +31,8 @@ function AppLayout() {
     <>
       <ScrollToTop />
       {!hideLayout && <Header />}
-      <div className='app-content'>
+
+      <div className={`app-content ${isPrintPage ? 'print-mode' : ''}`}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
@@ -36,9 +40,14 @@ function AppLayout() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/invoice' element={<InvoiceGenerator />} />
           <Route path='/admin' element={<Admin />} />
+          <Route
+            path='/admin/invoices/:id/print'
+            element={<InvoicePrintPage />}
+          />
         </Routes>
         <ToastContainer position='top-right' />
       </div>
+
       {!hideLayout && <Footer />}
     </>
   );

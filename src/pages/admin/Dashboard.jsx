@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import './dashboard.scss';
 import Sidebar from './Sidebar';
-import ServicesPanel from './ServicesPanel';
 import InvoiceCreate from './invoice/InvoiceCreate';
+import ServicesPanel from './AdminServices/ServicesPanel';
+import InvoicesPage from './InvoicesPage/InvoicesPage';
+import AnalyticsPage from './analyticsPage/AnalyticsPage';
 
 export default function Dashboard({ onLogout }) {
   const [visible, setVisible] = useState(false);
-  const [activePage, setActivePage] = useState('invoice');
+  const [activePage, setActivePage] = useState('analytics');
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 300);
@@ -18,6 +20,19 @@ export default function Dashboard({ onLogout }) {
       <Sidebar onLogout={onLogout} setActivePage={setActivePage} />
 
       <div className='dashboard-content'>
+        {activePage === 'analytics' && (
+          <>
+            <h1>Dashboard</h1>
+            <AnalyticsPage />
+          </>
+        )}
+        {activePage === 'invoices' && (
+          <>
+            <h1>Invoices</h1>
+            <InvoicesPage />
+          </>
+        )}
+
         {activePage === 'services' && (
           <>
             <h1>Services</h1>
