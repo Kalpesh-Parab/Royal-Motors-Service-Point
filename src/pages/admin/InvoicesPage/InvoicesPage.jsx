@@ -4,13 +4,17 @@ import './invoicesPage.scss';
 
 const PAGE_SIZE = 10;
 
-/* 🔧 Format bike number: MH12OW0490 → MH-12-OW-0490 */
+/* 🔧 Format bike number for DISPLAY
+   MH12OW0490 → MH 12 OW 0490 */
 const formatBikeNumber = (value = '') => {
-  if (value.length < 4) return value.toUpperCase();
-  return value
-    .toUpperCase()
-    .replace(/^(.{2})(.{2})(.{2})(.*)$/, '$1  $2  $3  $4');
+  if (!value) return '-';
+  return value.toUpperCase().replace(/^(.{2})(.{2})(.{2})(.*)$/, '$1 $2 $3 $4');
 };
+
+/* 🔧 Clean search query before API call
+   Removes spaces + uppercases */
+const sanitizeSearchQuery = (value = '') =>
+  value.replace(/\s+/g, '').toUpperCase();
 
 export default function InvoicesPage() {
   const [allInvoices, setAllInvoices] = useState([]);
@@ -21,7 +25,7 @@ export default function InvoicesPage() {
 
   const [page, setPage] = useState(1);
 
-  /* ---------- FETCH ALL ---------- */
+  /* ---------- FETCH ALL INVOICES ---------- */
   const fetchAll = async () => {
     try {
       setLoading(true);
@@ -43,14 +47,17 @@ export default function InvoicesPage() {
   /* ---------- LIVE SEARCH (DEBOUNCED) ---------- */
   useEffect(() => {
     const timer = setTimeout(async () => {
-      if (!query.trim()) {
+      const cleanedQuery = sanitizeSearchQuery(query);
+
+      // If search box is empty → show all invoices
+      if (!cleanedQuery) {
         fetchAll();
         return;
       }
 
       try {
         setLoading(true);
-        const res = await API.get(`/api/invoices/search?q=${query}`);
+        const res = await API.get(`/api/invoices/search?q=${cleanedQuery}`);
         setAllInvoices(res.data);
         setPage(1);
       } catch {
@@ -58,7 +65,7 @@ export default function InvoicesPage() {
       } finally {
         setLoading(false);
       }
-    }, 400); // 👈 debounce delay
+    }, 400); // ⏱ debounce delay
 
     return () => clearTimeout(timer);
   }, [query]);
@@ -72,33 +79,34 @@ export default function InvoicesPage() {
 
   const totalPages = Math.ceil(allInvoices.length / PAGE_SIZE);
 
+  /* ---------- OPEN PRINT PAGE ---------- */
   const openInvoice = (id) => {
     window.open(`/admin/invoices/${id}/print`, '_blank');
   };
 
   return (
-    <div className="invoices-page">
-      {/* HEADER */}
-      <div className="invoices-header">
+    <div className='invoices-page'>
+      {/* ---------- HEADER ---------- */}
+      <div className='invoices-header'>
         <h2>Invoices</h2>
 
-        <div className="search-bar">
+        <div className='search-bar'>
           <input
-            placeholder="Search by Bike No or Mobile"
+            placeholder='Search by Bike No or Mobile'
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
       </div>
 
-      {/* TABLE */}
-      <div className="table-wrapper">
+      {/* ---------- TABLE ---------- */}
+      <div className='table-wrapper'>
         {loading ? (
-          <p className="status">Loading invoices...</p>
+          <p className='status'>Loading invoices...</p>
         ) : visibleInvoices.length === 0 ? (
-          <p className="status">No invoices found</p>
+          <p className='status'>No invoices found</p>
         ) : (
-          <table className="invoice-table">
+          <table className='invoice-table'>
             <thead>
               <tr>
                 <th>Bike No</th>
@@ -114,7 +122,7 @@ export default function InvoicesPage() {
                 <tr
                   key={inv._id}
                   onClick={() => openInvoice(inv._id)}
-                  title="Click to open invoice"
+                  title='Click to open invoice'
                 >
                   <td>{formatBikeNumber(inv.bikeNumber)}</td>
                   <td>{inv.owner?.name || '-'}</td>
@@ -126,7 +134,7 @@ export default function InvoicesPage() {
                       year: 'numeric',
                     })}
                   </td>
-                  <td className="amount">₹ {inv.grandTotal}</td>
+                  <td className='amount'>₹ {inv.grandTotal}</td>
                 </tr>
               ))}
             </tbody>
@@ -134,13 +142,10 @@ export default function InvoicesPage() {
         )}
       </div>
 
-      {/* PAGINATION */}
+      {/* ---------- PAGINATION ---------- */}
       {!loading && totalPages > 1 && (
-        <div className="pagination">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
+        <div className='pagination'>
+          <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
             Prev
           </button>
 

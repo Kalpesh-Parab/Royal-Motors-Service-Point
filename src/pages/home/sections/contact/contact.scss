@@ -11,6 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: row;
 
     .tHead {
       color: #fff;
@@ -50,11 +51,11 @@
   .desc {
     width: 74%;
     color: #fff;
-    font-size: 1.25vw;
+    font-size: 2vw;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    letter-spacing: -0.96px;
+    letter-spacing: .5px;
   }
 
   .bottom {
