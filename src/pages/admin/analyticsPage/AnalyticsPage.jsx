@@ -26,12 +26,17 @@ function useCountUp(value, duration = 900) {
   return display;
 }
 
+/* ---------- MONTH DIFF ---------- */
+const monthDiff = (from, to) =>
+  (to.getFullYear() - from.getFullYear()) * 12 +
+  (to.getMonth() - from.getMonth());
+
 export default function AnalyticsPage() {
   const [apInvoices, setApInvoices] = useState([]);
   const [apLoading, setApLoading] = useState(true);
 
   const now = new Date();
-  const [apMode, setApMode] = useState('THIS_MONTH'); // ALL | THIS_MONTH | LAST_MONTH | CUSTOM
+  const [apMode, setApMode] = useState('THIS_MONTH');
   const [apMonth, setApMonth] = useState(now.getMonth());
   const [apYear, setApYear] = useState(now.getFullYear());
 
@@ -78,31 +83,10 @@ export default function AnalyticsPage() {
   const apAvgInvoice =
     apTotalInvoices === 0 ? 0 : Math.round(apTotalRevenue / apTotalInvoices);
 
-  /* ---------- SERVICE MIX ---------- */
-
-  const apServiceMix = useMemo(() => {
-    let service = 0;
-    let category = 0;
-
-    apFilteredInvoices.forEach((inv) => {
-      inv.categories.forEach((cat) => {
-        if (cat.pricingMode === 'SERVICE') service += cat.categoryTotal;
-        else category += cat.categoryTotal;
-      });
-    });
-
-    const total = service + category || 1;
-
-    return {
-      servicePct: Math.round((service / total) * 100),
-      categoryPct: Math.round((category / total) * 100),
-    };
-  }, [apFilteredInvoices]);
-
   /* ---------- CATEGORY REVENUE ---------- */
-
   const apCategoryRevenue = useMemo(() => {
     const map = {};
+
     apFilteredInvoices.forEach((inv) => {
       inv.categories.forEach((cat) => {
         map[cat.categoryName] =
@@ -110,7 +94,10 @@ export default function AnalyticsPage() {
       });
     });
 
-    return Object.entries(map).map(([name, value]) => ({ name, value }));
+    return Object.entries(map).map(([name, value]) => ({
+      name,
+      value,
+    }));
   }, [apFilteredInvoices]);
 
   const apMaxCategory = Math.max(...apCategoryRevenue.map((c) => c.value), 1);
@@ -119,6 +106,34 @@ export default function AnalyticsPage() {
   const revenueCount = useCountUp(apTotalRevenue);
   const invoiceCount = useCountUp(apTotalInvoices);
   const avgInvoiceCount = useCountUp(apAvgInvoice);
+
+  /* ---------- 6 MONTH DUE CUSTOMERS ---------- */
+  const apDueCustomers = useMemo(() => {
+    const map = {};
+
+    apInvoices.forEach((inv) => {
+      const bike = inv.bikeNumber;
+      if (
+        !map[bike] ||
+        new Date(inv.createdAt) > new Date(map[bike].createdAt)
+      ) {
+        map[bike] = inv;
+      }
+    });
+
+    return Object.values(map)
+      .map((inv) => {
+        const months = monthDiff(new Date(inv.createdAt), now);
+        return { ...inv, months };
+      })
+      .filter((inv) => inv.months >= 6 && inv.months < 7)
+      .sort((a, b) => a.months - b.months)
+      .slice(0, 6);
+  }, [apInvoices, now]);
+
+  const openInvoice = (id) => {
+    window.open(`/admin/invoices/${id}/print`, '_blank');
+  };
 
   if (apLoading) {
     return <div className='ap-container'>Loading analytics…</div>;
@@ -175,76 +190,71 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {apFilteredInvoices.length === 0 ? (
-        <div className='ap-empty'>No data available for selected period</div>
-      ) : (
-        <div className='ap-grid'>
-          <div className='ap-card'>
-            <h4>Total Revenue</h4>
-            <p className='ap-big accent'>
-              ₹ {revenueCount.toLocaleString('en-IN')}
-            </p>
-            <span>Selected period</span>
-          </div>
-
-          <div className='ap-card'>
-            <h4>Invoices Generated</h4>
-            <p className='ap-big accent'>{invoiceCount}</p>
-            <span>Jobs completed</span>
-          </div>
-
-          <div className='ap-card'>
-            <h4>Average Invoice Value</h4>
-            <p className='ap-big accent'>
-              ₹ {avgInvoiceCount.toLocaleString('en-IN')}
-            </p>
-            <span>Per job</span>
-          </div>
-
-          <div className='ap-card ap-mix'>
-            <h4>Service Mix Ratio</h4>
-
-            <div className='ap-mix-row'>
-              <span>Service Based</span>
-              <div className='ap-mix-bar'>
-                <div style={{ width: `${apServiceMix.servicePct}%` }} />
-              </div>
-              <span>{apServiceMix.servicePct}%</span>
-            </div>
-
-            <div className='ap-mix-row'>
-              <span>Category Based</span>
-              <div className='ap-mix-bar'>
-                <div style={{ width: `${apServiceMix.categoryPct}%` }} />
-              </div>
-              <span>{apServiceMix.categoryPct}%</span>
-            </div>
-          </div>
-
-          <div className='ap-card ap-categories'>
-            <h4>Revenue by Category</h4>
-
-            {apCategoryRevenue.map((cat) => (
-              <div key={cat.name} className='ap-bar-row'>
-                <div className='ap-bar-label'>{cat.name}</div>
-
-                <div className='ap-bar-track'>
-                  <div
-                    className='ap-bar-fill'
-                    style={{
-                      width: `${(cat.value / apMaxCategory) * 100}%`,
-                    }}
-                  />
-                </div>
-
-                <div className='ap-bar-amount'>
-                  ₹ {cat.value.toLocaleString('en-IN')}
-                </div>
-              </div>
-            ))}
-          </div>
+      <div className='ap-grid'>
+        <div className='ap-card'>
+          <h4>Total Revenue</h4>
+          <p className='ap-big accent'>
+            ₹ {revenueCount.toLocaleString('en-IN')}
+          </p>
+          <span>Selected period</span>
         </div>
-      )}
+
+        <div className='ap-card'>
+          <h4>Invoices Generated</h4>
+          <p className='ap-big accent'>{invoiceCount}</p>
+          <span>Jobs completed</span>
+        </div>
+
+        <div className='ap-card'>
+          <h4>Average Invoice Value</h4>
+          <p className='ap-big accent'>
+            ₹ {avgInvoiceCount.toLocaleString('en-IN')}
+          </p>
+          <span>Per job</span>
+        </div>
+
+        {/* 🔔 6 MONTH DUE */}
+        <div className='ap-card ap-due'>
+          <h4>Recently Due (6 Months)</h4>
+
+          {apDueCustomers.length === 0 ? (
+            <p className='ap-due-empty'>No customers due recently 🎉</p>
+          ) : (
+            <ul className='ap-due-list'>
+              {apDueCustomers.map((inv) => (
+                <li key={inv._id} onClick={() => openInvoice(inv._id)}>
+                  <span className='bike'>{inv.bikeNumber}</span>
+                  <span className='mobile'>{inv.owner?.mobile}</span>
+                  <span className='ago'>{inv.months} months ago</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        {/* 📊 REVENUE BY CATEGORY */}
+        <div className='ap-card ap-categories'>
+          <h4>Revenue by Category</h4>
+
+          {apCategoryRevenue.map((cat) => (
+            <div key={cat.name} className='ap-bar-row'>
+              <div className='ap-bar-label'>{cat.name}</div>
+
+              <div className='ap-bar-track'>
+                <div
+                  className='ap-bar-fill'
+                  style={{
+                    width: `${(cat.value / apMaxCategory) * 100}%`,
+                  }}
+                />
+              </div>
+
+              <div className='ap-bar-amount'>
+                ₹ {cat.value.toLocaleString('en-IN')}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

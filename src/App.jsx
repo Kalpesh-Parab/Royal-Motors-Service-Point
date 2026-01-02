@@ -14,7 +14,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/footer/Footer';
 import ScrollToTop from './components/scrolltoTop/ScrollToTop';
-import InvoiceGenerator from './pages/invoice/Invoice';
 import Admin from './pages/admin/Admin';
 import InvoicePrintPage from './pages/admin/invoice/InvoicePrintPage';
 
@@ -24,8 +23,7 @@ function AppLayout() {
   // Check if current route is /invoice
   const isPrintPage = location.pathname.includes('/print');
 
-  const hideLayout =
-    location.pathname === '/invoice' || location.pathname.startsWith('/admin');
+  const hideLayout = location.pathname.startsWith('/admin');
 
   return (
     <>
@@ -38,7 +36,6 @@ function AppLayout() {
           <Route path='/about' element={<About />} />
           <Route path='/services' element={<Services />} />
           <Route path='/contact' element={<Contact />} />
-          <Route path='/invoice' element={<InvoiceGenerator />} />
           <Route path='/admin' element={<Admin />} />
           <Route
             path='/admin/invoices/:id/print'
