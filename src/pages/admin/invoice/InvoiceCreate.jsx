@@ -8,6 +8,31 @@ import BikeDetails from './components/BikeDetails';
 import ServiceCategories from './components/ServiceCategories';
 import RecentInvoices from './RecentInvoices';
 
+/* ---------- SAFE WHATSAPP PARSER ---------- */
+const parseWhatsappMessage = (text = '') => {
+  if (!text || typeof text !== 'string') {
+    return {};
+  }
+
+  const extract = (labels) => {
+    const regex = new RegExp(`(?:${labels})\\s*[:.-]?\\s*([^\n\r]+)`, 'i');
+    const match = text.match(regex);
+    return match && match[1] ? match[1].trim() : '';
+  };
+
+  return {
+    ownerName: extract('Name'),
+    bikeModel: extract('Bike model|Bike Model'),
+    bikeKms: extract('KMs|KMS').replace(/[^0-9]/g, ''),
+    bikeNumber: extract('Bike No|Bike Number')
+      .replace(/[^A-Z0-9]/gi, '')
+      .toUpperCase(),
+    address: extract('Address'),
+    mobile: extract('WhatsApp No|Mobile|Phone').replace(/[^0-9]/g, ''),
+    email: extract('Email'),
+  };
+};
+
 export default function InvoiceCreate() {
   const getCurrentTime = () => {
     const now = new Date();
@@ -29,6 +54,8 @@ export default function InvoiceCreate() {
     outTime: '',
     date: '',
   });
+
+  const [whatsappText, setWhatsappText] = useState('');
 
   const [availableCategories, setAvailableCategories] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -54,6 +81,28 @@ export default function InvoiceCreate() {
     } catch {
       toast.error('Failed to load recent invoices');
     }
+  };
+
+  /* ---------- APPLY WHATSAPP DATA ---------- */
+  const applyWhatsappData = () => {
+    if (!whatsappText.trim()) {
+      toast.error('Paste WhatsApp message first');
+      return;
+    }
+
+    const parsed = parseWhatsappMessage(whatsappText);
+
+    if (!parsed.ownerName && !parsed.bikeNumber) {
+      toast.error('Could not detect valid data from message');
+      return;
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      ...parsed,
+    }));
+
+    toast.success('Details auto-filled from WhatsApp message');
   };
 
   const handleChange = (e) => {
@@ -127,7 +176,19 @@ export default function InvoiceCreate() {
 
   return (
     <div className='invoice-create'>
-      <h2>Create Invoice</h2>
+      <div className='ic-header'>
+        <h2>Create Invoice</h2>
+
+        {/* WHATSAPP PARSER */}
+        <div className='whatsapp-box'>
+          <textarea
+            placeholder='Paste customer WhatsApp message here...'
+            value={whatsappText}
+            onChange={(e) => setWhatsappText(e.target.value)}
+          />
+          <button onClick={applyWhatsappData}>Auto Fill</button>
+        </div>
+      </div>
 
       <OwnerDetails form={form} onChange={handleChange} />
       <BikeDetails form={form} onChange={handleChange} />
@@ -138,7 +199,11 @@ export default function InvoiceCreate() {
         setCategories={setCategories}
       />
 
-      <button onClick={handleSubmit} disabled={loading} style={{marginTop:'2vw'}}>
+      <button
+        onClick={handleSubmit}
+        disabled={loading}
+        style={{ marginTop: '2vw' }}
+      >
         {loading ? 'Creating...' : 'Create Invoice'}
       </button>
 
