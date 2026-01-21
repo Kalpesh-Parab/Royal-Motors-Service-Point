@@ -48,3 +48,7 @@ ul {
   background: transparent;
   box-shadow: none !important;
 }
+
+::-webkit-scrollbar{
+  display: none;
+}
