@@ -135,6 +135,7 @@ export default function InvoicesPage() {
       <div className='invoices-header'>
         <h2>Invoices</h2>
         <input
+          className='search-bar'
           placeholder='Search by Bike No or Mobile'
           value={query}
           onChange={(e) => setQuery(e.target.value)}
