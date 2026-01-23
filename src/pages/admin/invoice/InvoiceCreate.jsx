@@ -8,28 +8,171 @@ import BikeDetails from './components/BikeDetails';
 import ServiceCategories from './components/ServiceCategories';
 import RecentInvoices from './RecentInvoices';
 
-/* ---------- SAFE WHATSAPP PARSER ---------- */
-const parseWhatsappMessage = (text = '') => {
-  if (!text || typeof text !== 'string') {
-    return {};
-  }
+const BIKE_MODELS = [
+  'Old - G2 Lightening',
+  'Old - G2 Tauras',
+  'Old - G2',
+  'Old Standard 350',
+  'Old Standard 500',
+  'Classic 500',
+  'Classic 350',
+  'Reborn 350',
+  'Meteor 350',
+  'Himalayan 411',
+  'Himalayan 450',
+  'Scram',
+  'Hunter 350',
+  'Guerrilla 450',
+  'Meteor 650',
+  'Interceptor 650',
+  'Continental GT 650',
+];
 
-  const extract = (labels) => {
-    const regex = new RegExp(`(?:${labels})\\s*[:.-]?\\s*([^\n\r]+)`, 'i');
-    const match = text.match(regex);
-    return match && match[1] ? match[1].trim() : '';
+/* ---------- SAFE WHATSAPP PARSER (UPDATED FORMAT) ---------- */
+const parseWhatsappMessage = (text = '') => {
+  if (!text || typeof text !== 'string') return {};
+
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  const getValue = (labelRegex) => {
+    const index = lines.findIndex((line) =>
+      new RegExp(`^${labelRegex}`, 'i').test(line),
+    );
+
+    if (index === -1) return '';
+
+    // Case 1: "Label: value"
+    const sameLineMatch = lines[index].match(/:(.*)$/);
+    if (sameLineMatch && sameLineMatch[1]?.trim()) {
+      return sameLineMatch[1].trim();
+    }
+
+    // Case 2: value on next line
+    return lines[index + 1] || '';
   };
 
   return {
-    ownerName: extract('Name'),
-    bikeModel: extract('Bike model|Bike Model'),
-    bikeKms: extract('KMs|KMS').replace(/[^0-9]/g, ''),
-    bikeNumber: extract('Bike No|Bike Number')
+    ownerName: getValue('Name'),
+
+    bikeModel: getValue('Bike model'),
+
+    bikeKms: getValue('KMs').replace(/[^0-9]/g, ''),
+
+    bikeNumber: getValue('Bike No')
       .replace(/[^A-Z0-9]/gi, '')
       .toUpperCase(),
-    address: extract('Address'),
-    mobile: extract('WhatsApp No|Mobile|Phone').replace(/[^0-9]/g, ''),
-    email: extract('Email'),
+
+    address: getValue('Address'),
+
+    mobile: getValue('WhatsApp No|Mobile|Phone').replace(/[^0-9]/g, ''),
+
+    email: getValue('Email'),
+  };
+};
+
+/* ---------- BIKE MODEL MATCHER (FINAL & STABLE) ---------- */
+
+const normalize = (str = '') =>
+  str
+    .toLowerCase()
+    .replace(/([a-z])([0-9])/gi, '$1 $2')
+    .replace(/([0-9])([a-z])/gi, '$1 $2')
+    .replace(/[^a-z0-9 ]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const isNumeric = (str) => /^\d+$/.test(str);
+
+/* Levenshtein Distance */
+const levenshtein = (a = '', b = '') => {
+  const dp = Array.from({ length: a.length + 1 }, () =>
+    Array(b.length + 1).fill(0),
+  );
+
+  for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] =
+        a[i - 1] === b[j - 1]
+          ? dp[i - 1][j - 1]
+          : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+
+  return dp[a.length][b.length];
+};
+
+const isFuzzyWordMatch = (a, b) => {
+  if (isNumeric(a) || isNumeric(b)) return false;
+
+  const dist = levenshtein(a, b);
+
+  if (a.length <= 5) return dist <= 1;
+  return dist <= 2;
+};
+
+const resolveBikeModel = (inputModel = '') => {
+  if (!inputModel) {
+    return { bikeModel: '', customBikeModel: '' };
+  }
+
+  const input = normalize(inputModel);
+  const inputTokens = input.split(' ');
+
+  let bestMatch = '';
+  let bestScore = 0;
+  let hasWordMatch = false;
+
+  BIKE_MODELS.forEach((model) => {
+    const normalizedModel = normalize(model);
+    const modelTokens = normalizedModel.split(' ');
+
+    let score = 0;
+    let wordMatched = false;
+
+    inputTokens.forEach((token) => {
+      modelTokens.forEach((mToken) => {
+        // exact word
+        if (token === mToken) {
+          score += isNumeric(token) ? 1 : 4;
+          if (!isNumeric(token)) wordMatched = true;
+        }
+        // prefix match
+        else if (!isNumeric(token) && mToken.startsWith(token)) {
+          score += 3;
+          wordMatched = true;
+        }
+        // fuzzy typo match
+        else if (isFuzzyWordMatch(token, mToken)) {
+          score += 2;
+          wordMatched = true;
+        }
+      });
+    });
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = model;
+      hasWordMatch = wordMatched;
+    }
+  });
+
+  // ✅ FINAL DECISION RULE
+  if (hasWordMatch && bestScore >= 3) {
+    return {
+      bikeModel: bestMatch,
+      customBikeModel: '',
+    };
+  }
+
+  return {
+    bikeModel: 'OTHER',
+    customBikeModel: inputModel,
   };
 };
 
@@ -37,7 +180,7 @@ export default function InvoiceCreate() {
   const getCurrentTime = () => {
     const now = new Date();
     return `${String(now.getHours()).padStart(2, '0')}:${String(
-      now.getMinutes()
+      now.getMinutes(),
     ).padStart(2, '0')}`;
   };
 
@@ -97,12 +240,23 @@ export default function InvoiceCreate() {
       return;
     }
 
+    // 🔥 Resolve bike model smartly
+    const resolvedModel = resolveBikeModel(parsed.bikeModel);
+
     setForm((prev) => ({
       ...prev,
       ...parsed,
+      bikeModel: resolvedModel.bikeModel,
+      customBikeModel: resolvedModel.customBikeModel,
     }));
 
-    toast.success('Details auto-filled from WhatsApp message');
+    if (resolvedModel.bikeModel === 'OTHER') {
+      toast.info('Bike model added as manual entry');
+    } else if (resolvedModel.bikeModel) {
+      toast.success(`Bike model auto-detected: ${resolvedModel.bikeModel}`);
+    } else {
+      toast.success('Details auto-filled from WhatsApp message');
+    }
   };
 
   const handleChange = (e) => {
