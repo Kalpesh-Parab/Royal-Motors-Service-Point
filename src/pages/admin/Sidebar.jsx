@@ -11,10 +11,13 @@ export default function Sidebar({ onLogout, setActivePage }) {
 
         <nav>
           <button onClick={() => setActivePage('analytics')}>Analytics</button>
+
           <button onClick={() => setActivePage('invoices')}>Invoices</button>
-          <button onClick={() => setActivePage('invoice')}>
+
+          <button onClick={() => setActivePage('create-invoice')}>
             Create Invoice
           </button>
+
           <button onClick={() => setActivePage('services')}>Services</button>
         </nav>
       </div>

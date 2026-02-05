@@ -35,7 +35,6 @@ const buildServiceLines = (invoice) => {
 /* ---------- BUILD WHATSAPP MESSAGE ---------- */
 const buildWhatsAppMessage = (invoice) => {
   const services = buildServiceLines(invoice);
-  const invoiceLink = `${window.location.origin}/admin/invoices/${invoice._id}/print`;
 
   return `
 🧾 ROYAL MOTORS – SERVICE INVOICE 🏍️
@@ -72,7 +71,7 @@ Ride Safe. Ride Smooth.
 `.trim();
 };
 
-export default function InvoicesPage() {
+export default function InvoicesPage({ onEdit }) {
   const [allInvoices, setAllInvoices] = useState([]);
   const [visibleInvoices, setVisibleInvoices] = useState([]);
   const [query, setQuery] = useState('');
@@ -141,8 +140,6 @@ export default function InvoicesPage() {
 
     try {
       await API.delete(`/api/invoices/${invoiceId}`);
-
-      // Optimistic UI update
       setAllInvoices((prev) => prev.filter((inv) => inv._id !== invoiceId));
     } catch (err) {
       alert('Failed to delete invoice');
@@ -154,6 +151,7 @@ export default function InvoicesPage() {
     <div className='invoices-page'>
       <div className='invoices-header'>
         <h2>Invoices</h2>
+
         <input
           className='search-bar'
           placeholder='Search by Bike No or Mobile'
@@ -197,7 +195,7 @@ export default function InvoicesPage() {
                   className='edit-btn'
                   onClick={(e) => {
                     e.stopPropagation();
-                    // EDIT LOGIC COMES LATER
+                    onEdit(inv._id);
                   }}
                 >
                   ✏️

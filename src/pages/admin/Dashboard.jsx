@@ -9,6 +9,7 @@ import AnalyticsPage from './analyticsPage/AnalyticsPage';
 export default function Dashboard({ onLogout }) {
   const [visible, setVisible] = useState(false);
   const [activePage, setActivePage] = useState('analytics');
+  const [editInvoiceId, setEditInvoiceId] = useState(null);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 300);
@@ -17,33 +18,49 @@ export default function Dashboard({ onLogout }) {
 
   return (
     <div className={`dashboard ${visible ? 'show' : ''}`}>
-      <Sidebar onLogout={onLogout} setActivePage={setActivePage} />
+      <Sidebar
+        onLogout={onLogout}
+        setActivePage={(page) => {
+          setEditInvoiceId(null); // always reset
+          setActivePage(page);
+        }}
+      />
 
       <div className='dashboard-content'>
+        {/* ANALYTICS (DEFAULT) */}
         {activePage === 'analytics' && (
           <>
             <h1>Dashboard</h1>
             <AnalyticsPage />
           </>
         )}
+
+        {/* INVOICE LIST */}
         {activePage === 'invoices' && (
           <>
             <h1>Invoices</h1>
-            <InvoicesPage />
+            <InvoicesPage
+              onEdit={(id) => {
+                setEditInvoiceId(id);
+                setActivePage('create-invoice');
+              }}
+            />
           </>
         )}
 
+        {/* CREATE / EDIT INVOICE */}
+        {activePage === 'create-invoice' && (
+          <>
+            <h1>{editInvoiceId ? 'Edit Invoice' : 'Create Invoice'}</h1>
+            <InvoiceCreate editId={editInvoiceId} />
+          </>
+        )}
+
+        {/* SERVICES */}
         {activePage === 'services' && (
           <>
             <h1>Services</h1>
             <ServicesPanel />
-          </>
-        )}
-
-        {activePage === 'invoice' && (
-          <>
-            <h1>Create Invoice</h1>
-            <InvoiceCreate />
           </>
         )}
       </div>

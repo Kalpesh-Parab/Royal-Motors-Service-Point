@@ -1,4 +1,5 @@
 import './invoiceCreate.scss';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import API from '../adminApi';
 import { toast } from 'react-toastify';
@@ -176,7 +177,9 @@ const resolveBikeModel = (inputModel = '') => {
   };
 };
 
-export default function InvoiceCreate() {
+export default function InvoiceCreate({ editId }) {
+  const isEditMode = Boolean(editId);
+
   const getCurrentTime = () => {
     const now = new Date();
     return `${String(now.getHours()).padStart(2, '0')}:${String(
@@ -204,6 +207,52 @@ export default function InvoiceCreate() {
   const [categories, setCategories] = useState([]);
   const [recentInvoices, setRecentInvoices] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isEditMode) return;
+
+    const loadInvoice = async () => {
+      try {
+        const res = await API.get(`/api/invoices/id/${editId}`);
+        const inv = res.data;
+
+        setForm({
+          bikeNumber: inv.bikeNumber,
+          ownerName: inv.owner?.name || '',
+          address: inv.owner?.address || '',
+          mobile: inv.owner?.mobile || '',
+          email: inv.owner?.email || '',
+          bikeModel: BIKE_MODELS.includes(inv.bike?.model)
+            ? inv.bike.model
+            : 'OTHER',
+          customBikeModel: BIKE_MODELS.includes(inv.bike?.model)
+            ? ''
+            : inv.bike?.model || '',
+          bikeKms: inv.bike?.kms || '',
+          inTime: inv.timings?.inTime || '',
+          outTime: inv.timings?.outTime || '',
+          date: inv.invoiceDate?.slice(0, 10),
+        });
+
+        setCategories(
+          inv.categories.map((cat) => ({
+            categoryId: cat.categoryId,
+            categoryName: cat.categoryName,
+            pricingMode: cat.pricingMode,
+            services: cat.services.map((s) => ({
+              name: s.serviceName,
+              price: s.price,
+            })),
+            categoryPrice: cat.categoryPrice,
+          })),
+        );
+      } catch {
+        toast.error('Failed to load invoice');
+      }
+    };
+
+    loadInvoice();
+  }, [editId, isEditMode]);
 
   useEffect(() => {
     setForm((prev) => ({ ...prev, outTime: getCurrentTime() }));
@@ -316,23 +365,54 @@ export default function InvoiceCreate() {
       };
 
       setLoading(true);
-      await API.post('api/invoices', payload);
-      toast.success('Invoice created');
 
-      setCategories([]);
+      if (isEditMode) {
+        // 🟡 UPDATE EXISTING INVOICE
+        await API.put(`/api/invoices/${editId}`, payload);
+        toast.success('Invoice updated successfully');
+      } else {
+        // 🟢 CREATE NEW INVOICE
+        await API.post('api/invoices', payload);
+        toast.success('Invoice created successfully');
+
+        // Clear form only on create
+        setCategories([]);
+      }
+
       loadRecentInvoices();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to create invoice');
+      toast.error(err.response?.data?.message || 'Failed to save invoice');
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    // 🔄 Switched from EDIT → CREATE
+    if (isEditMode) return;
+
+    setForm({
+      bikeNumber: '',
+      ownerName: '',
+      address: '',
+      mobile: '',
+      email: '',
+      bikeModel: '',
+      customBikeModel: '',
+      bikeKms: '',
+      inTime: '',
+      outTime: getCurrentTime(),
+      date: '',
+    });
+
+    setCategories([]);
+    setWhatsappText('');
+  }, [isEditMode]);
+
   return (
     <div className='invoice-create'>
       <div className='ic-header'>
-        <h2>Create Invoice</h2>
-
+        <h2>{isEditMode ? 'Edit Invoice' : 'Create Invoice'}</h2>
         {/* WHATSAPP PARSER */}
         <div className='whatsapp-box'>
           <textarea
@@ -353,12 +433,14 @@ export default function InvoiceCreate() {
         setCategories={setCategories}
       />
 
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        style={{ marginTop: '2vw' }}
-      >
-        {loading ? 'Creating...' : 'Create Invoice'}
+      <button onClick={handleSubmit} disabled={loading}>
+        {loading
+          ? isEditMode
+            ? 'Updating...'
+            : 'Creating...'
+          : isEditMode
+            ? 'Update Invoice'
+            : 'Create Invoice'}
       </button>
 
       <RecentInvoices invoices={recentInvoices} />
