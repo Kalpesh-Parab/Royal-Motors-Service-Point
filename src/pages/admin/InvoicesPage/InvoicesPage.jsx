@@ -130,6 +130,26 @@ export default function InvoicesPage() {
     window.open(url, '_blank');
   };
 
+  const handleDeleteInvoice = async (e, invoiceId) => {
+    e.stopPropagation();
+
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this invoice?',
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await API.delete(`/api/invoices/${invoiceId}`);
+
+      // Optimistic UI update
+      setAllInvoices((prev) => prev.filter((inv) => inv._id !== invoiceId));
+    } catch (err) {
+      alert('Failed to delete invoice');
+      console.error(err);
+    }
+  };
+
   return (
     <div className='invoices-page'>
       <div className='invoices-header'>
@@ -151,6 +171,7 @@ export default function InvoicesPage() {
             <th>Date</th>
             <th>Total</th>
             <th>WhatsApp</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -166,7 +187,27 @@ export default function InvoicesPage() {
               <td>₹ {inv.grandTotal}</td>
               <td>
                 <button onClick={(e) => sendWhatsAppInvoice(e, inv)}>
-                  <img src={whatsapp} alt='' className='wpsmall' /> Send
+                  <img src={whatsapp} alt='' className='wpsmall' />
+                  Send
+                </button>
+              </td>
+
+              <td className='actions'>
+                <button
+                  className='edit-btn'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // EDIT LOGIC COMES LATER
+                  }}
+                >
+                  ✏️
+                </button>
+
+                <button
+                  className='delete-btn'
+                  onClick={(e) => handleDeleteInvoice(e, inv._id)}
+                >
+                  ❌
                 </button>
               </td>
             </tr>
