@@ -34,42 +34,60 @@ const buildServiceLines = (invoice) => {
 
 /* ---------- BUILD WHATSAPP MESSAGE ---------- */
 const buildWhatsAppMessage = (invoice) => {
-  const services = buildServiceLines(invoice);
+  const formatBikeNumber = (value = '') =>
+    value
+      ? value.toUpperCase().replace(/^(.{2})(.{2})(.{2})(.*)$/, '$1 $2 $3 $4')
+      : '-';
+
+  const serviceLines = invoice.categories
+    .flatMap((cat) =>
+      cat.pricingMode === 'SERVICE'
+        ? cat.services.map(
+            (s) => `• ${s.serviceName} — ₹ ${s.price}`
+          )
+        : [`• ${cat.categoryName} — ₹ ${cat.categoryTotal}`]
+    )
+    .join('\n');
+
+  const serviceDate = new Date(invoice.invoiceDate).toLocaleDateString('en-IN');
 
   return `
-🧾 ROYAL MOTORS – SERVICE INVOICE 🏍️
-Trusted Two-Wheeler Service & Care
-
-📍 Royal Motors Service Point
+*ROYAL MOTORS SERVICE POINT – by Alex*
 Porwal Road, Dhanori, Pune
-📞 +91 97678 52720
++91 9422024560 | 7058876100
 ━━━━━━━━━━━━━━━━━━
 
-👤 Customer Details
+*Customer Details*
 Name: ${invoice.owner?.name || '-'}
 Mobile: ${invoice.owner?.mobile || '-'}
 
-🚲 Bike Details
+*Bike Details*
 Bike No: ${formatBikeNumber(invoice.bikeNumber)}
 Model: ${invoice.bike?.model || '-'}
-Service Date: ${new Date(invoice.createdAt).toLocaleDateString('en-IN')}
-━━━━━━━━━━━━━━━━━━
-
-🔧 Service Details
-${services}
+Service Date: ${serviceDate}
+Bike KMs: ${invoice.bike?.kms ?? '-'}
 
 ━━━━━━━━━━━━━━━━━━
-💰 GRAND TOTAL: ₹ ${invoice.grandTotal}
+
+*Service Details*
+${serviceLines}
+
+━━━━━━━━━━━━━━━━━━
+*GRAND TOTAL: ₹ ${invoice.grandTotal}*
 ━━━━━━━━━━━━━━━━━━
 
-💳 Payment Mode:
-Kindly make the payment via UPI / Scanner
-📲 UPI ID / Mobile No: 9767852720
-📄 This is a digitally generated invoice and does not require a physical signature.
-Thank you for choosing Royal Motors 🙏
+*Payment Mode:*
+Kindly make the payment using the UPI ID:
+*9767852720@kotak*
+
+_Please share the payment screenshot for confirmation._
+_This is a digitally generated invoice and does not require a physical signature._
+
+Thank you for choosing *Royal Motors Service Point by Alex*.
 Ride Safe. Ride Smooth.
 `.trim();
 };
+
 
 export default function InvoicesPage({ onEdit }) {
   const [allInvoices, setAllInvoices] = useState([]);

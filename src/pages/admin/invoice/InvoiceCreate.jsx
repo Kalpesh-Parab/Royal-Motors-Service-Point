@@ -8,6 +8,7 @@ import OwnerDetails from './components/OwnerDetails';
 import BikeDetails from './components/BikeDetails';
 import ServiceCategories from './components/ServiceCategories';
 import RecentInvoices from './RecentInvoices';
+import QuickServicePicker from './components/QuickServicePicker';
 
 const BIKE_MODELS = [
   'Old - G2 Lightening',
@@ -308,6 +309,27 @@ export default function InvoiceCreate({ editId }) {
     }
   };
 
+  const addServiceToCategory = async (categoryId, serviceName) => {
+    try {
+      await API.patch(`/api/services/${categoryId}/add`, {
+        service: serviceName,
+      });
+
+      toast.success('Service added');
+
+      // 🔄 Update availableCategories locally
+      setAvailableCategories((prev) =>
+        prev.map((cat) =>
+          cat._id === categoryId
+            ? { ...cat, services: [...cat.services, serviceName] }
+            : cat,
+        ),
+      );
+    } catch {
+      toast.error('Failed to add service');
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -426,11 +448,17 @@ export default function InvoiceCreate({ editId }) {
 
       <OwnerDetails form={form} onChange={handleChange} />
       <BikeDetails form={form} onChange={handleChange} />
+      <QuickServicePicker
+        availableCategories={availableCategories}
+        categories={categories}
+        setCategories={setCategories}
+      />
 
       <ServiceCategories
         availableCategories={availableCategories}
         categories={categories}
         setCategories={setCategories}
+        onAddService={addServiceToCategory}
       />
 
       <button onClick={handleSubmit} disabled={loading}>

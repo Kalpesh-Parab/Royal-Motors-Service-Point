@@ -7,10 +7,11 @@ export default function CategoryRow({
   setCategories,
   availableCategories,
   removeCategory,
+  onAddService,
 }) {
   const updateCategory = (patch) => {
     setCategories((prev) =>
-      prev.map((c) => (c.id === cat.id ? { ...c, ...patch } : c))
+      prev.map((c) => (c.id === cat.id ? { ...c, ...patch } : c)),
     );
   };
 
@@ -19,7 +20,7 @@ export default function CategoryRow({
     .map((c) => c.categoryId);
 
   const categoryData = availableCategories.find(
-    (c) => c._id === cat.categoryId
+    (c) => c._id === cat.categoryId,
   );
 
   const handleCategoryChange = (e) => {
@@ -101,6 +102,7 @@ export default function CategoryRow({
             cat={cat}
             services={categoryData.services}
             updateCategory={updateCategory}
+            onAddService={onAddService}
           />
         </>
       )}

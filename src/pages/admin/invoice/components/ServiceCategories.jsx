@@ -1,18 +1,19 @@
-import CategoryRow from "./CategoryRow";
+import CategoryRow from './CategoryRow';
 
 export default function ServiceCategories({
   availableCategories,
   categories,
   setCategories,
+  onAddService,
 }) {
   const addCategory = () => {
     setCategories((prev) => [
       ...prev,
       {
         id: crypto.randomUUID(),
-        categoryId: "",
-        categoryName: "",
-        pricingMode: "SERVICE",
+        categoryId: '',
+        categoryName: '',
+        pricingMode: 'SERVICE',
         services: [],
         categoryPrice: 0,
       },
@@ -32,7 +33,8 @@ export default function ServiceCategories({
           categories={categories}
           availableCategories={availableCategories}
           setCategories={setCategories}
-          removeCategory={removeCategory} // 👈 NEW
+          removeCategory={removeCategory}
+          onAddService={onAddService}
         />
       ))}
 
