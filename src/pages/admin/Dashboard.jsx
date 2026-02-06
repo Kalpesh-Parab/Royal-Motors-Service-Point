@@ -22,6 +22,7 @@ export default function Dashboard({ onLogout }) {
     <div className={`dashboard ${visible ? 'show' : ''}`}>
       <Sidebar
         onLogout={onLogout}
+        activePage={activePage}
         setActivePage={(page) => {
           setEditInvoiceId(null); // always reset
           setActivePage(page);

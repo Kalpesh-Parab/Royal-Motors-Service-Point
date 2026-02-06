@@ -9,23 +9,26 @@
   justify-content: space-between;
 }
 
-.top{
+.top {
   display: flex;
   flex-direction: column;
-  gap: 3vw;
+  gap: 1vw;
 }
 .logo {
+  padding: 10px;
+  border-bottom: 1px solid #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  img{
+
+  img {
     object-fit: contain;
     width: 6.5vw;
     aspect-ratio: 2/1;
   }
 }
 
-.logout-btn{
+.logout-btn {
   font-size: 1vw;
   padding: 0.5vw 1vw;
   background-color: #ff6a00;
@@ -35,33 +38,73 @@
     color: white;
   }
 }
-nav{
-    display: flex;
-    flex-direction: column;
-    gap: 1vw;
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: .5vw;
 }
+
 nav button {
+  position: relative;
   background: none;
   border: none;
-  color: white;
-  padding:auto;
+  color: #ccc;
+  padding: 0.6vw 0;
   text-align: left;
   cursor: pointer;
   font-size: 1vw;
+  font-weight: 500;
   transition: color 0.2s ease;
+}
 
-  &:hover {
-    background-color: #ff6a00;
-    color: #fff;
-  }
+/* 🔶 HOVER LINE (animated) */
+nav button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 100%;
+  background-color: #ff6a00;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
 
-  &.active {
-    color: #ff6a00;
-    font-weight: bold;
-  }
+/* Hover → line fills left to right */
+nav button:hover::after {
+  transform: scaleX(1);
+}
 
-  &:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
+/* Optional hover text tint */
+nav button:hover {
+  background-color: #111;
+  color: #fff;
+}
+
+/* 🔥 ACTIVE STATE */
+nav button.active {
+  color: #ff6a00;
+  font-weight: 600;
+}
+
+/* Active underline (always visible) */
+nav button.active::after {
+  transform: scaleX(1);
+}
+
+/* Disabled (future-proof) */
+nav button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+nav button:focus {
+  outline: none;
+}
+
+/* Show outline ONLY when keyboard is used */
+nav button:focus-visible {
+  outline: 2px solid #ff6a00;
+  outline-offset: 4px;
 }

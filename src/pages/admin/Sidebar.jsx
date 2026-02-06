@@ -1,7 +1,7 @@
 import './sidebar.scss';
 import logo from '../../assets/logoWhite.png';
 
-export default function Sidebar({ onLogout, setActivePage }) {
+export default function Sidebar({ onLogout, setActivePage, activePage }) {
   return (
     <aside className='sidebar'>
       <div className='top'>
@@ -10,19 +10,45 @@ export default function Sidebar({ onLogout, setActivePage }) {
         </div>
 
         <nav>
-          <button onClick={() => setActivePage('analytics')}>Analytics</button>
+          <button
+            className={activePage === 'analytics' ? 'active' : ''}
+            onClick={() => setActivePage('analytics')}
+          >
+            Analytics
+          </button>
 
-          <button onClick={() => setActivePage('invoices')}>Invoices</button>
+          <button
+            className={activePage === 'invoices' ? 'active' : ''}
+            onClick={() => setActivePage('invoices')}
+          >
+            Invoices
+          </button>
 
-          <button onClick={() => setActivePage('create-invoice')}>
+          <button
+            className={activePage === 'create-invoice' ? 'active' : ''}
+            onClick={() => setActivePage('create-invoice')}
+          >
             Create Invoice
           </button>
 
-          <button onClick={() => setActivePage('services')}>Services</button>
-          <button onClick={() => setActivePage('recently-due')}>
+          <button
+            className={activePage === 'services' ? 'active' : ''}
+            onClick={() => setActivePage('services')}
+          >
+            Services
+          </button>
+
+          <button
+            className={activePage === 'recently-due' ? 'active' : ''}
+            onClick={() => setActivePage('recently-due')}
+          >
             Recently Due
           </button>
-          <button onClick={() => setActivePage('whatsapp-messages')}>
+
+          <button
+            className={activePage === 'whatsapp-messages' ? 'active' : ''}
+            onClick={() => setActivePage('whatsapp-messages')}
+          >
             WhatsApp Messages
           </button>
         </nav>
