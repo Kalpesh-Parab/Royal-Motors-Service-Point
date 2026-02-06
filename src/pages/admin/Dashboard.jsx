@@ -5,6 +5,8 @@ import InvoiceCreate from './invoice/InvoiceCreate';
 import ServicesPanel from './AdminServices/ServicesPanel';
 import InvoicesPage from './InvoicesPage/InvoicesPage';
 import AnalyticsPage from './analyticsPage/AnalyticsPage';
+import RecentlyDuePage from './recentlyDuePage/RecentlyDuePage';
+import WhatsAppMessagesPage from './WhatsAppMessagesPage/WhatsAppMessagesPage';
 
 export default function Dashboard({ onLogout }) {
   const [visible, setVisible] = useState(false);
@@ -61,6 +63,22 @@ export default function Dashboard({ onLogout }) {
           <>
             <h1>Services</h1>
             <ServicesPanel />
+          </>
+        )}
+
+        {/* RECENTLY DUE */}
+        {activePage === 'recently-due' && (
+          <>
+            <h1>Recently Due</h1>
+            <RecentlyDuePage />
+          </>
+        )}
+
+        {/* WHATSAPP MESSAGES */}
+        {activePage === 'whatsapp-messages' && (
+          <>
+            <h1>WhatsApp Messages</h1>
+            <WhatsAppMessagesPage />
           </>
         )}
       </div>

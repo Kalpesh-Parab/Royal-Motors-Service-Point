@@ -75,7 +75,7 @@ export default function AnalyticsPage() {
 
   const apTotalRevenue = useMemo(
     () => apFilteredInvoices.reduce((s, i) => s + i.grandTotal, 0),
-    [apFilteredInvoices]
+    [apFilteredInvoices],
   );
 
   const apTotalInvoices = apFilteredInvoices.length;
@@ -107,7 +107,7 @@ export default function AnalyticsPage() {
   const invoiceCount = useCountUp(apTotalInvoices);
   const avgInvoiceCount = useCountUp(apAvgInvoice);
 
-  /* ---------- 6 MONTH DUE CUSTOMERS ---------- */
+  /* ---------- 3 MONTH DUE CUSTOMERS ---------- */
   const apDueCustomers = useMemo(() => {
     const map = {};
 
@@ -126,9 +126,9 @@ export default function AnalyticsPage() {
         const months = monthDiff(new Date(inv.createdAt), now);
         return { ...inv, months };
       })
-      .filter((inv) => inv.months >= 6 && inv.months < 7)
+      .filter((inv) => inv.months >= 3 && inv.months < 4)
       .sort((a, b) => a.months - b.months)
-      .slice(0, 6);
+      .slice(0, 3);
   }, [apInvoices, now]);
 
   const openInvoice = (id) => {
@@ -138,6 +138,9 @@ export default function AnalyticsPage() {
   if (apLoading) {
     return <div className='ap-container'>Loading analytics…</div>;
   }
+
+  const currentYear = new Date().getFullYear();
+  const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear + i);
 
   return (
     <div className='ap-container'>
@@ -180,7 +183,7 @@ export default function AnalyticsPage() {
                 setApMode('CUSTOM');
               }}
             >
-              {[2024, 2025, 2026].map((y) => (
+              {yearOptions.map((y) => (
                 <option key={y} value={y}>
                   {y}
                 </option>
@@ -213,9 +216,9 @@ export default function AnalyticsPage() {
           <span>Per job</span>
         </div>
 
-        {/* 🔔 6 MONTH DUE */}
+        {/* 🔔 3 MONTH DUE */}
         <div className='ap-card ap-due'>
-          <h4>Recently Due (6 Months)</h4>
+          <h4>Recently Due (3 Months)</h4>
 
           {apDueCustomers.length === 0 ? (
             <p className='ap-due-empty'>No customers due recently 🎉</p>

@@ -19,6 +19,12 @@ export default function Sidebar({ onLogout, setActivePage }) {
           </button>
 
           <button onClick={() => setActivePage('services')}>Services</button>
+          <button onClick={() => setActivePage('recently-due')}>
+            Recently Due
+          </button>
+          <button onClick={() => setActivePage('whatsapp-messages')}>
+            WhatsApp Messages
+          </button>
         </nav>
       </div>
 
