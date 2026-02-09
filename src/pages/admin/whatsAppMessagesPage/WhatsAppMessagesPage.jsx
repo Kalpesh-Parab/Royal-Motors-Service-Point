@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import API from '../adminApi';
-import './whatsappMessagesPage.scss';
+import "./whatsAppMessagesPage.scss"
 
 export default function WhatsAppMessagesPage() {
   const [templates, setTemplates] = useState([]);
