@@ -6,7 +6,7 @@ import ServicesPanel from './AdminServices/ServicesPanel';
 import InvoicesPage from './InvoicesPage/InvoicesPage';
 import AnalyticsPage from './analyticsPage/AnalyticsPage';
 import RecentlyDuePage from './recentlyDuePage/RecentlyDuePage';
-import WhatsAppMessagesPage from './WhatsAppMessagesPage/WhatsAppMessagesPage';
+import WhatsAppMessagesPage from './whatsAppMessagesPage/WhatsAppMessagesPage';
 
 export default function Dashboard({ onLogout }) {
   const [visible, setVisible] = useState(false);
