@@ -216,6 +216,7 @@ export default function InvoiceCreate({ editId }) {
       try {
         const res = await API.get(`/api/invoices/id/${editId}`);
         const inv = res.data;
+        console.log('🔵 RAW INVOICE FROM BACKEND:', inv);
 
         setForm({
           bikeNumber: inv.bikeNumber,
@@ -235,18 +236,21 @@ export default function InvoiceCreate({ editId }) {
           date: inv.invoiceDate?.slice(0, 10),
         });
 
-        setCategories(
-          inv.categories.map((cat) => ({
-            categoryId: cat.categoryId,
-            categoryName: cat.categoryName,
-            pricingMode: cat.pricingMode,
-            services: cat.services.map((s) => ({
-              name: s.serviceName,
-              price: s.price,
-            })),
-            categoryPrice: cat.categoryPrice,
+        const mappedCategories = inv.categories.map((cat) => ({
+          id: cat._id || crypto.randomUUID(),
+          categoryId: cat.categoryId,
+          categoryName: cat.categoryName,
+          pricingMode: cat.pricingMode,
+          services: cat.services.map((s) => ({
+            name: s.serviceName,
+            price: s.price,
           })),
-        );
+          categoryPrice: cat.categoryPrice || 0,
+        }));
+
+        console.log('🟡 MAPPED CATEGORIES FOR UI:', mappedCategories);
+
+        setCategories(mappedCategories);
       } catch {
         toast.error('Failed to load invoice');
       }
@@ -386,6 +390,8 @@ export default function InvoiceCreate({ editId }) {
         })),
       };
 
+      console.log('🟣 FINAL PAYLOAD BEFORE SUBMIT:', payload);
+
       setLoading(true);
 
       if (isEditMode) {
@@ -430,6 +436,10 @@ export default function InvoiceCreate({ editId }) {
     setCategories([]);
     setWhatsappText('');
   }, [isEditMode]);
+
+  useEffect(() => {
+    console.log('🟢 CURRENT CATEGORIES STATE:', categories);
+  }, [categories]);
 
   return (
     <div className='invoice-create'>

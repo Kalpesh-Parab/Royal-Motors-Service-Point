@@ -42,19 +42,33 @@ export default function CategoryRow({
     });
   };
 
+  /* 🔥 LIVE CATEGORY TOTAL CALCULATION */
+  const categoryTotal =
+    cat.pricingMode === 'SERVICE'
+      ? cat.services.reduce(
+          (sum, s) => sum + Number(s.price || 0),
+          0,
+        )
+      : Number(cat.categoryPrice || 0);
+
   return (
     <div className='category-row'>
       <div className='row-header'>
         <label className='field-label'>Service Category</label>
 
-        {/* ❌ REMOVE CATEGORY */}
-        <button
-          type='button'
-          className='remove-category'
-          onClick={() => removeCategory(cat.id)}
-        >
-          ✕ Remove
-        </button>
+        <div className='header-right'>
+          <div className='category-total'>
+            ₹ {categoryTotal}
+          </div>
+
+          <button
+            type='button'
+            className='remove-category'
+            onClick={() => removeCategory(cat.id)}
+          >
+            ✕ Remove
+          </button>
+        </div>
       </div>
 
       <select

@@ -30,11 +30,20 @@ export default function ServiceList({
     if (e.key !== 'Enter') return;
     if (!newService.trim()) return;
 
-    await onAddService(cat.categoryId, newService.trim());
+    const serviceName = newService.trim();
 
-    // auto-select after adding
+    // Prevent duplicate
+    const alreadyExists = cat.services.some((s) => s.name === serviceName);
+
+    if (alreadyExists) {
+      setNewService('');
+      return;
+    }
+
+    await onAddService(cat.categoryId, serviceName);
+
     updateCategory({
-      services: [...cat.services, { name: newService.trim(), price: 0 }],
+      services: [...cat.services, { name: serviceName, price: 0 }],
     });
 
     setNewService('');
@@ -43,6 +52,9 @@ export default function ServiceList({
   return (
     <div className='services-box'>
       {services.map((service) => {
+        console.log('Available service:', service);
+console.log('Selected services:', cat.services.map(s => s.name));
+
         const selected = cat.services.find((s) => s.name === service);
 
         return (
@@ -61,7 +73,9 @@ export default function ServiceList({
                 type='number'
                 placeholder='₹ Price'
                 value={selected.price}
-                onChange={(e) => updatePrice(service, Number(e.target.value))}
+                onChange={(e) =>
+                  updatePrice(service, Number(e.target.value || 0))
+                }
               />
             )}
           </div>
