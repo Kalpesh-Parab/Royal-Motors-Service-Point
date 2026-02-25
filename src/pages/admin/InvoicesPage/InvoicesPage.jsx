@@ -42,10 +42,8 @@ const buildWhatsAppMessage = (invoice) => {
   const serviceLines = invoice.categories
     .flatMap((cat) =>
       cat.pricingMode === 'SERVICE'
-        ? cat.services.map(
-            (s) => `• ${s.serviceName} — ₹ ${s.price}`
-          )
-        : [`• ${cat.categoryName} — ₹ ${cat.categoryTotal}`]
+        ? cat.services.map((s) => `• ${s.serviceName} — ₹ ${s.price}`)
+        : [`• ${cat.categoryName} — ₹ ${cat.categoryTotal}`],
     )
     .join('\n');
 
@@ -81,13 +79,15 @@ Kindly make the payment using the UPI ID:
 *9767852720@kotak*
 
 _Please share the payment screenshot for confirmation._
-_This is a digitally generated invoice and does not require a physical signature._
+
+*Please Note:*
+Save our workshop numbers mentioned above.
+Workshop time-10 AM to 6.30 PM, Every Thursdays Closed.
 
 Thank you for choosing *Royal Motors Service Point by Alex*.
 Ride Safe. Ride Smooth.
 `.trim();
 };
-
 
 export default function InvoicesPage({ onEdit }) {
   const [allInvoices, setAllInvoices] = useState([]);
