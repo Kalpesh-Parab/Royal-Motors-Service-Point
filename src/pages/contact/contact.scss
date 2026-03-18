@@ -172,12 +172,12 @@
       justify-content: center;
       align-items: center;
       width: 50%;
-      height: 50vh;
+      height: 70vh;
 
       img {
         width: 50%;
-        aspect-ratio: 1.9;
-        object-fit: cover;
+        aspect-ratio: 1.5;
+        object-fit: contain;
       }
     }
   }
