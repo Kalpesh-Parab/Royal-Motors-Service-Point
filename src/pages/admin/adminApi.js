@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL:
-    'https://royal-backend-2-s988.onrender.com' || 'http://localhost:5000',
+  baseURL: 'https://royal-backend-5r83.onrender.com' || 'http://localhost:5000',
 });
 
 API.interceptors.request.use((req) => {
