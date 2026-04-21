@@ -39,6 +39,13 @@ export default function Sidebar({ onLogout, setActivePage, activePage }) {
           </button>
 
           <button
+            className={activePage === 'expenses' ? 'active' : ''}
+            onClick={() => setActivePage('expenses')}
+          >
+            Expenses
+          </button>
+
+          <button
             className={activePage === 'recently-due' ? 'active' : ''}
             onClick={() => setActivePage('recently-due')}
           >

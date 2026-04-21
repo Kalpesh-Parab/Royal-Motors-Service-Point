@@ -132,6 +132,7 @@ $wa-green: #25d366;
     
     &:hover {
       background: $accent-orange-hover;
+      cursor: pointer;
     }
 
     &:last-child td {

@@ -7,6 +7,7 @@ import InvoicesPage from './InvoicesPage/InvoicesPage';
 import AnalyticsPage from './analyticsPage/AnalyticsPage';
 import RecentlyDuePage from './recentlyDuePage/RecentlyDuePage';
 import WhatsAppMessagesPage from './whatsAppMessagesPage/WhatsAppMessagesPage';
+import ExpensesPage from './expensesPage/ExpensesPage';
 
 export default function Dashboard({ onLogout }) {
   const [visible, setVisible] = useState(false);
@@ -64,6 +65,14 @@ export default function Dashboard({ onLogout }) {
           <>
             <h1>Services</h1>
             <ServicesPanel />
+          </>
+        )}
+
+        {/* EXPENSES */}
+        {activePage === 'expenses' && (
+          <>
+            <h1>Expenses</h1>
+            <ExpensesPage />
           </>
         )}
 

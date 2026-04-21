@@ -90,7 +90,10 @@ const VehicleTable = ({
         </thead>
         <tbody>
           {data.map((inv) => (
-            <tr key={inv._id}>
+            <tr
+              key={inv._id}
+              onClick={() => window.open(`/admin/invoices/${inv._id}/print`)}
+            >
               <td className='font-bold'>{inv.bikeNumber}</td>
               <td>{inv.owner?.name}</td>
               <td>{inv.bike?.model}</td>

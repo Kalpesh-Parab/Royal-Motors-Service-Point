@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import API from '../adminApi';
 import './analyticsPage.scss';
 
 /* ---------- COUNT UP HOOK ---------- */
+// Updated to handle both positive (revenue) and negative (loss) numbers smoothly
 function useCountUp(value, duration = 900) {
   const [display, setDisplay] = useState(0);
 
@@ -12,11 +13,15 @@ function useCountUp(value, duration = 900) {
 
     const timer = setInterval(() => {
       start += increment;
-      if (start >= value) {
+      if (
+        (increment > 0 && start >= value) ||
+        (increment < 0 && start <= value) ||
+        increment === 0
+      ) {
         setDisplay(value);
         clearInterval(timer);
       } else {
-        setDisplay(Math.floor(start));
+        setDisplay(Math.round(start));
       }
     }, 16);
 
@@ -26,69 +31,95 @@ function useCountUp(value, duration = 900) {
   return display;
 }
 
-/* ---------- MONTH DIFF ---------- */
-const monthDiff = (from, to) =>
-  (to.getFullYear() - from.getFullYear()) * 12 +
-  (to.getMonth() - from.getMonth());
+/* ---------- EXACT DAYS DIFF ---------- */
+const getDaysDiff = (targetDate, currentDate) => {
+  const d1 = new Date(targetDate);
+  const d2 = new Date(currentDate);
+  d1.setHours(0, 0, 0, 0);
+  d2.setHours(0, 0, 0, 0);
+  return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+};
 
 export default function AnalyticsPage() {
   const [apInvoices, setApInvoices] = useState([]);
+  const [apExpenses, setApExpenses] = useState([]);
   const [apLoading, setApLoading] = useState(true);
 
-  const now = new Date();
+  // Using state for "now" so it stays consistent during the render cycle
+  const [now] = useState(new Date());
+
   const [apMode, setApMode] = useState('THIS_MONTH');
   const [apMonth, setApMonth] = useState(now.getMonth());
   const [apYear, setApYear] = useState(now.getFullYear());
 
   useEffect(() => {
-    API.get('/api/invoices')
-      .then((res) => setApInvoices(res.data))
+    // Make sure to replace '/api/expenses' with your exact endpoint if it differs
+    Promise.all([API.get('/api/invoices'), API.get('/api/expenses')])
+      .then(([invRes, expRes]) => {
+        setApInvoices(invRes.data);
+        setApExpenses(expRes.data);
+      })
       .catch(() => alert('Failed to load analytics'))
       .finally(() => setApLoading(false));
   }, []);
 
-  /* ---------------- FILTER LOGIC ---------------- */
+  /* ---------------- FILTER BOUNDARIES ---------------- */
+  const { start, end } = useMemo(() => {
+    let s, e;
+    if (apMode === 'THIS_MONTH') {
+      s = new Date(now.getFullYear(), now.getMonth(), 1);
+      e = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    } else if (apMode === 'LAST_MONTH') {
+      s = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      e = new Date(now.getFullYear(), now.getMonth(), 0);
+    } else {
+      s = new Date(apYear, apMonth, 1);
+      e = new Date(apYear, apMonth + 1, 0);
+    }
+    return { start: s, end: e };
+  }, [apMode, apMonth, apYear, now]);
 
+  /* ---------------- FILTER LOGIC (INVOICES) ---------------- */
   const apFilteredInvoices = useMemo(() => {
     if (apMode === 'ALL') return apInvoices;
-
-    let start, end;
-
-    if (apMode === 'THIS_MONTH') {
-      start = new Date(now.getFullYear(), now.getMonth(), 1);
-      end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    } else if (apMode === 'LAST_MONTH') {
-      start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      end = new Date(now.getFullYear(), now.getMonth(), 0);
-    } else {
-      start = new Date(apYear, apMonth, 1);
-      end = new Date(apYear, apMonth + 1, 0);
-    }
-
     return apInvoices.filter((inv) => {
-      const d = new Date(inv.createdAt);
+      const d = new Date(inv.invoiceDate || inv.createdAt);
       return d >= start && d <= end;
     });
-  }, [apInvoices, apMode, apMonth, apYear, now]);
+  }, [apInvoices, apMode, start, end]);
+
+  /* ---------------- FILTER LOGIC (EXPENSES) ---------------- */
+  const apFilteredExpenses = useMemo(() => {
+    if (apMode === 'ALL') return apExpenses;
+    return apExpenses.filter((exp) => {
+      // Strictly considering paymentDate as requested
+      const d = new Date(exp.paymentDate);
+      return d >= start && d <= end;
+    });
+  }, [apExpenses, apMode, start, end]);
 
   /* ---------------- METRICS ---------------- */
-
-  const apTotalRevenue = useMemo(
+  const apTotalGross = useMemo(
     () => apFilteredInvoices.reduce((s, i) => s + i.grandTotal, 0),
     [apFilteredInvoices],
   );
 
-  const apTotalInvoices = apFilteredInvoices.length;
+  const apTotalExpenses = useMemo(
+    () => apFilteredExpenses.reduce((s, e) => s + (e.paymentAmount || 0), 0),
+    [apFilteredExpenses],
+  );
 
+  const apNetRevenue = apTotalGross - apTotalExpenses;
+  const apTotalInvoices = apFilteredInvoices.length;
   const apAvgInvoice =
-    apTotalInvoices === 0 ? 0 : Math.round(apTotalRevenue / apTotalInvoices);
+    apTotalInvoices === 0 ? 0 : Math.round(apTotalGross / apTotalInvoices);
 
   /* ---------- CATEGORY REVENUE ---------- */
   const apCategoryRevenue = useMemo(() => {
     const map = {};
 
     apFilteredInvoices.forEach((inv) => {
-      inv.categories.forEach((cat) => {
+      inv.categories?.forEach((cat) => {
         map[cat.categoryName] =
           (map[cat.categoryName] || 0) + cat.categoryTotal;
       });
@@ -103,32 +134,41 @@ export default function AnalyticsPage() {
   const apMaxCategory = Math.max(...apCategoryRevenue.map((c) => c.value), 1);
 
   /* ---------- COUNTERS ---------- */
-  const revenueCount = useCountUp(apTotalRevenue);
+  const netRevenueCount = useCountUp(apNetRevenue);
   const invoiceCount = useCountUp(apTotalInvoices);
   const avgInvoiceCount = useCountUp(apAvgInvoice);
 
-  /* ---------- 3 MONTH DUE CUSTOMERS ---------- */
+  /* ---------- STRICT 3 MONTH DUE WIDGET ---------- */
   const apDueCustomers = useMemo(() => {
     const map = {};
 
+    // 1. Get the absolute latest invoice per vehicle
     apInvoices.forEach((inv) => {
       const bike = inv.bikeNumber;
       if (
         !map[bike] ||
-        new Date(inv.createdAt) > new Date(map[bike].createdAt)
+        new Date(inv.invoiceDate) > new Date(map[bike].invoiceDate)
       ) {
         map[bike] = inv;
       }
     });
 
-    return Object.values(map)
-      .map((inv) => {
-        const months = monthDiff(new Date(inv.createdAt), now);
-        return { ...inv, months };
-      })
-      .filter((inv) => inv.months >= 3 && inv.months < 4)
-      .sort((a, b) => a.months - b.months)
-      .slice(0, 3);
+    const activeDueList = [];
+
+    // 2. Apply strict calendar math (0 to 3 days window)
+    Object.values(map).forEach((inv) => {
+      const targetDate = new Date(inv.invoiceDate);
+      targetDate.setMonth(targetDate.getMonth() + 3);
+
+      const diffDays = getDaysDiff(targetDate, now);
+
+      if (diffDays >= 0 && diffDays <= 3) {
+        activeDueList.push({ ...inv, diffDays });
+      }
+    });
+
+    // 3. Sort by urgency
+    return activeDueList.sort((a, b) => b.diffDays - a.diffDays).slice(0, 4);
   }, [apInvoices, now]);
 
   const openInvoice = (id) => {
@@ -136,11 +176,11 @@ export default function AnalyticsPage() {
   };
 
   if (apLoading) {
-    return <div className='ap-container'>Loading analytics…</div>;
+    return <div className='ap-container loading'>Loading analytics…</div>;
   }
 
-  const currentYear = new Date().getFullYear();
-  const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear + i);
+  const currentYear = now.getFullYear();
+  const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i);
 
   return (
     <div className='ap-container'>
@@ -194,12 +234,20 @@ export default function AnalyticsPage() {
       </div>
 
       <div className='ap-grid'>
+        {/* DYNAMIC NET REVENUE CARD */}
         <div className='ap-card'>
-          <h4>Total Revenue</h4>
-          <p className='ap-big accent'>
-            ₹ {revenueCount.toLocaleString('en-IN')}
+          <h4>Net Revenue</h4>
+          <p
+            className='ap-big'
+            style={{ color: apNetRevenue >= 0 ? '#25d366' : '#ff4d4d' }}
+          >
+            {apNetRevenue >= 0 ? '▲' : '▼'} ₹{' '}
+            {Math.abs(netRevenueCount).toLocaleString('en-IN')}
           </p>
-          <span>Selected period</span>
+          <span style={{ fontSize: '11px' }}>
+            Gross: ₹{apTotalGross.toLocaleString('en-IN')} | Exp: ₹
+            {apTotalExpenses.toLocaleString('en-IN')}
+          </span>
         </div>
 
         <div className='ap-card'>
@@ -216,24 +264,31 @@ export default function AnalyticsPage() {
           <span>Per job</span>
         </div>
 
-        {/* 🔔 3 MONTH DUE */}
+        {/* 🔔 3 MONTH DUE WIDGET */}
         <div className='ap-card ap-due'>
-          <h4>Recently Due (3 Months)</h4>
+          <h4>(3 Months Due)</h4>
 
           {apDueCustomers.length === 0 ? (
-            <p className='ap-due-empty'>No customers due recently 🎉</p>
+            <p className='ap-due-empty'>
+              No vehicles in the 3-day active window. 🎉
+            </p>
           ) : (
             <ul className='ap-due-list'>
               {apDueCustomers.map((inv) => (
                 <li key={inv._id} onClick={() => openInvoice(inv._id)}>
                   <span className='bike'>{inv.bikeNumber}</span>
                   <span className='mobile'>{inv.owner?.mobile}</span>
-                  <span className='ago'>{inv.months} months ago</span>
+                  <span className='ago'>
+                    {inv.diffDays === 0
+                      ? 'Due Today'
+                      : `${inv.diffDays} day(s) overdue`}
+                  </span>
                 </li>
               ))}
             </ul>
           )}
         </div>
+
         {/* 📊 REVENUE BY CATEGORY */}
         <div className='ap-card ap-categories'>
           <h4>Revenue by Category</h4>

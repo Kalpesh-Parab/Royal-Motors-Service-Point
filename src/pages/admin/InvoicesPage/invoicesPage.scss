@@ -84,7 +84,7 @@
     text-align: left;
     vertical-align: middle;
     border-bottom: 1px solid #222;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   th {
@@ -103,7 +103,8 @@
   }
 
   .amount {
-    font-weight: 700;
+    font-weight: bolder;
+    font-size: 20px;
     color: #ff7a00;
   }
 }
@@ -128,7 +129,7 @@
 }
 
 .pagination span {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: #444;
   margin-top: 20px;
@@ -138,7 +139,7 @@
 .pagination button {
   margin-top: 20px;
   padding: 6px 14px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   background: #2a2c30;
   color: #fff;

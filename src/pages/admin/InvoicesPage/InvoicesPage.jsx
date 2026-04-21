@@ -182,6 +182,7 @@ export default function InvoicesPage({ onEdit }) {
         <thead>
           <tr>
             <th>Bike</th>
+            <th>Model</th>
             <th>Customer</th>
             <th>Mobile</th>
             <th>Date</th>
@@ -197,10 +198,11 @@ export default function InvoicesPage({ onEdit }) {
               onClick={() => window.open(`/admin/invoices/${inv._id}/print`)}
             >
               <td>{formatBikeNumber(inv.bikeNumber)}</td>
+              <td>{inv.bike?.model}</td>
               <td>{inv.owner?.name}</td>
               <td>{inv.owner?.mobile}</td>
               <td>{new Date(inv.createdAt).toLocaleDateString('en-IN')}</td>
-              <td>₹ {inv.grandTotal}</td>
+              <td className='amount'>₹ {inv.grandTotal}</td>
               <td>
                 <button onClick={(e) => sendWhatsAppInvoice(e, inv)}>
                   <img src={whatsapp} alt='' className='wpsmall' />
