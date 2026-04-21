@@ -18,7 +18,10 @@ const getLatestInvoices = (invoices) => {
   const map = {};
   invoices.forEach((inv) => {
     const bike = inv.bikeNumber;
-    if (!map[bike] || new Date(inv.invoiceDate) > new Date(map[bike].createdAt)) {
+    if (
+      !map[bike] ||
+      new Date(inv.invoiceDate) > new Date(map[bike].createdAt)
+    ) {
       map[bike] = inv;
     }
   });
@@ -29,11 +32,11 @@ const getLatestInvoices = (invoices) => {
 const getStrictStatus = (invoiceDateStr, filterMonths) => {
   const targetDate = new Date(invoiceDateStr);
   targetDate.setMonth(targetDate.getMonth() + parseInt(filterMonths, 10));
-  
+
   const diffDays = getDaysDiff(targetDate, new Date());
 
-  if (diffDays >= 0 && diffDays <= 3) return 'due';
-  if (diffDays >= -3 && diffDays < 0) return 'borderline';
+  if (diffDays >= 0 && diffDays <= 20) return 'due';
+  if (diffDays >= -10 && diffDays < 0) return 'borderline';
   return null;
 };
 
@@ -58,13 +61,22 @@ const applyTemplate = (template, inv) => {
 /* ---------- COMPONENTS ---------- */
 
 // Reusable table component for clean UI code
-const VehicleTable = ({ title, data, templates, selectedTemplates, onTemplateChange, onSend }) => (
-  <div className="rd-table-section">
-    <h3 className="rd-table-title">{title} <span className="count-badge">{data.length}</span></h3>
+const VehicleTable = ({
+  title,
+  data,
+  templates,
+  selectedTemplates,
+  onTemplateChange,
+  onSend,
+}) => (
+  <div className='rd-table-section'>
+    <h3 className='rd-table-title'>
+      {title} <span className='count-badge'>{data.length}</span>
+    </h3>
     {data.length === 0 ? (
-      <p className="rd-empty">No vehicles to display right now.</p>
+      <p className='rd-empty'>No vehicles to display right now.</p>
     ) : (
-      <table className="rd-table">
+      <table className='rd-table'>
         <thead>
           <tr>
             <th>Vehicle</th>
@@ -79,18 +91,18 @@ const VehicleTable = ({ title, data, templates, selectedTemplates, onTemplateCha
         <tbody>
           {data.map((inv) => (
             <tr key={inv._id}>
-              <td className="font-bold">{inv.bikeNumber}</td>
+              <td className='font-bold'>{inv.bikeNumber}</td>
               <td>{inv.owner?.name}</td>
               <td>{inv.bike?.model}</td>
               <td>{new Date(inv.invoiceDate).toLocaleDateString()}</td>
-              <td className="text-sm text-gray">{getWorkSummary(inv)}</td>
+              <td className='text-sm text-gray'>{getWorkSummary(inv)}</td>
               <td>
                 <select
-                  className="rd-select"
+                  className='rd-select'
                   value={selectedTemplates[inv._id] || ''}
                   onChange={(e) => onTemplateChange(inv._id, e.target.value)}
                 >
-                  <option value="">Select Template...</option>
+                  <option value=''>Select Template...</option>
                   {templates.map((t) => (
                     <option key={t._id} value={t._id}>
                       {t.title}
@@ -99,7 +111,7 @@ const VehicleTable = ({ title, data, templates, selectedTemplates, onTemplateCha
                 </select>
               </td>
               <td>
-                <button className="rd-btn-send" onClick={() => onSend(inv)}>
+                <button className='rd-btn-send' onClick={() => onSend(inv)}>
                   Send WA
                 </button>
               </td>
@@ -120,10 +132,7 @@ export default function RecentlyDuePage() {
 
   /* ---------- FETCH ---------- */
   useEffect(() => {
-    Promise.all([
-      API.get('/api/invoices'),
-      API.get('/api/whatsapp-templates'),
-    ])
+    Promise.all([API.get('/api/invoices'), API.get('/api/whatsapp-templates')])
       .then(([invRes, tplRes]) => {
         setInvoices(invRes.data);
         setTemplates(tplRes.data.filter((t) => t.active));
@@ -145,7 +154,8 @@ export default function RecentlyDuePage() {
     });
 
     // Sort both arrays: oldest invoice first (closest to dropping off)
-    const sortByDate = (a, b) => new Date(a.invoiceDate) - new Date(b.invoiceDate);
+    const sortByDate = (a, b) =>
+      new Date(a.invoiceDate) - new Date(b.invoiceDate);
     due.sort(sortByDate);
     borderline.sort(sortByDate);
 
@@ -172,30 +182,37 @@ export default function RecentlyDuePage() {
     setSelectedTemplates((prev) => ({ ...prev, [invoiceId]: templateId }));
   };
 
-  if (loading) return <div className="rd-container loading">Loading Service Data...</div>;
+  if (loading)
+    return <div className='rd-container loading'>Loading Service Data...</div>;
 
   return (
-    <div className="rd-container">
-      <header className="rd-header">
+    <div className='rd-container'>
+      <header className='rd-header'>
         <h2>Service Reminders</h2>
-        <div className="rd-filters">
-          <button 
-            className={filter === '3' ? 'active' : ''} 
-            onClick={() => setFilter('3')}>3 Months
+        <div className='rd-filters'>
+          <button
+            className={filter === '3' ? 'active' : ''}
+            onClick={() => setFilter('3')}
+          >
+            3 Months
           </button>
-          <button 
-            className={filter === '6' ? 'active' : ''} 
-            onClick={() => setFilter('6')}>6 Months
+          <button
+            className={filter === '6' ? 'active' : ''}
+            onClick={() => setFilter('6')}
+          >
+            6 Months
           </button>
-          <button 
-            className={filter === '9' ? 'active' : ''} 
-            onClick={() => setFilter('9')}>9 Months
+          <button
+            className={filter === '9' ? 'active' : ''}
+            onClick={() => setFilter('9')}
+          >
+            9 Months
           </button>
         </div>
       </header>
 
       <VehicleTable
-        title="Active Due (0-3 Days Window)"
+        title='Active Due (0-20 Days Window)'
         data={dueList}
         templates={templates}
         selectedTemplates={selectedTemplates}
@@ -204,7 +221,7 @@ export default function RecentlyDuePage() {
       />
 
       <VehicleTable
-        title="Approaching Deadline (Next 3 Days)"
+        title='Approaching Deadline (Next 10 Days)'
         data={borderlineList}
         templates={templates}
         selectedTemplates={selectedTemplates}
