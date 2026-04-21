@@ -35,8 +35,8 @@ const getStrictStatus = (invoiceDateStr, filterMonths) => {
 
   const diffDays = getDaysDiff(targetDate, new Date());
 
-  if (diffDays >= 0 && diffDays <= 20) return 'due';
-  if (diffDays >= -10 && diffDays < 0) return 'borderline';
+  if (diffDays >= 0 && diffDays <= 3) return 'due';
+  if (diffDays >= -3 && diffDays < 0) return 'borderline';
   return null;
 };
 
@@ -212,7 +212,7 @@ export default function RecentlyDuePage() {
       </header>
 
       <VehicleTable
-        title='Active Due (0-20 Days Window)'
+        title='Active Due (0-3 Days Window)'
         data={dueList}
         templates={templates}
         selectedTemplates={selectedTemplates}
@@ -221,7 +221,7 @@ export default function RecentlyDuePage() {
       />
 
       <VehicleTable
-        title='Approaching Deadline (Next 10 Days)'
+        title='Approaching Deadline (Next 3 Days)'
         data={borderlineList}
         templates={templates}
         selectedTemplates={selectedTemplates}
