@@ -1,171 +1,200 @@
-.rd-container {
-  padding: 20px;
-  margin-top: 30px;
-  width: 100%;
-  height: 100%;
-  color: #fff;
+/* ---------- VARIABLES ---------- */
+$bg-main: #111;
+$bg-card: #1c1c1c;
+$text-primary: #fff;
+$text-secondary: #aaa;
+$accent-orange: #ff6a00;
+$accent-orange-hover: rgba(255, 106, 0, 0.15);
+$border-dark: #2a2a2a;
+$wa-green: #25d366;
+
+/* ---------- MIXINS ---------- */
+@mixin transition-ease {
+  transition: all 0.2s ease-in-out;
 }
 
-/* ================= FILTERS ================= */
+/* ---------- MAIN CONTAINER ---------- */
+.rd-container {
+  margin-top: 50px;
+  padding: 24px;
+  background: $bg-main;
+  color: $text-primary;
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  &.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: $accent-orange;
+  }
+}
+
+/* ---------- HEADER & FILTERS ---------- */
+.rd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    color: $text-primary;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
 
 .rd-filters {
   display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 14px;
+
+  button {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid $accent-orange;
+    background: transparent;
+    color: $accent-orange;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    @include transition-ease;
+
+    &:hover {
+      background: $accent-orange-hover;
+    }
+
+    &.active {
+      background: $accent-orange;
+      color: #000;
+    }
+  }
 }
 
-.rd-filters button {
-  padding: 8px 16px;
-  background: #111;
-  color: #aaa;
-  border: 1px solid #444;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
+/* ---------- TABLE SECTION (Cards) ---------- */
+.rd-table-section {
+  background: $bg-card;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
 
-.rd-filters button:hover {
-  background: #1a1a1a;
-  color: #fff;
-}
+  .rd-table-title {
+    font-size: 18px;
+    color: $accent-orange;
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 
-.rd-filters button.active {
-  background: #ff7a00;
-  color: #000;
-  border-color: #ff7a00;
+    .count-badge {
+      background-color: $border-dark;
+      color: $text-primary;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+  }
 }
-
-/* ================= EMPTY STATE ================= */
 
 .rd-empty {
+  color: $text-secondary;
+  font-size: 14px;
   text-align: center;
-  font-size: 18px;
-  color: #888;
-  margin-top: 40px;
+  padding: 20px 0;
 }
 
-/* ================= TABLE ================= */
-
+/* ---------- TABLE ---------- */
 .rd-table {
   width: 100%;
   border-collapse: collapse;
-  background: #0f0f0f;
-  border: 1px solid #222;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.rd-table thead {
-  background: #000;
-}
-
-.rd-table th {
-  padding: 12px;
   text-align: left;
-  font-size: 16px;
-  font-weight: 800;
-  color: #aaa;
-  letter-spacing: 1.5px;
-  border-bottom: 1px solid #222;
+
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid $border-dark;
+  }
+
+  th {
+    font-size: 13px;
+    color: $text-secondary;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 2px solid $border-dark;
+  }
+
+  tbody tr {
+    @include transition-ease;
+    
+    &:hover {
+      background: $accent-orange-hover;
+    }
+
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
 }
 
-.rd-table td {
-  padding: 12px;
-  font-size: 16px;
-  color: #fff;
-  border-bottom: 1px solid #222;
-  vertical-align: middle;
-}
-
-.rd-table tbody tr {
-  transition: background 0.15s ease;
-}
-
-.rd-table tbody tr:hover {
-  background: #1a1a1a;
-}
-
-/* ================= CELLS ================= */
-
-.bike {
-  font-weight: 700;
-  color: #ff7a00;
-  letter-spacing: 1px;
-}
-
-.work {
+/* ---------- FORM ELEMENTS ---------- */
+.rd-select {
+  background: $bg-card;
+  color: $accent-orange;
+  border: 1px solid $accent-orange;
+  border-radius: 25px;
+  padding: 8px 15px;
   font-size: 14px;
-  color: #bbb;
-  max-width: 360px;
-  line-height: 1.4;
-}
-
-/* ================= DROPDOWN ================= */
-
-.rd-table select {
+  font-weight: 600;
   width: 100%;
-  padding: 8px;
-  background: #111;
-  border: 1px solid #444;
-  color: #fff;
-  border-radius: 4px;
+  max-width: 220px;
+  cursor: pointer;
   outline: none;
-  font-size: 14px;
+  appearance: none;
+  
+  /* Custom dropdown arrow painted orange to match theme */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ff6a00%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px top 50%;
+  background-size: 10px auto;
+
+  option {
+    background: $bg-card;
+    color: $text-primary;
+  }
 }
 
-/* ================= SEND BUTTON ================= */
-
-.send-btn {
+.rd-btn-send {
   padding: 8px 16px;
-  background: #25d366;
-  color: #000;
-  border: none;
-  border-radius: 4px;
+  border-radius: 20px;
+  border: 1px solid $wa-green;
+  background: transparent;
+  color: $wa-green;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  @include transition-ease;
+
+  &:hover {
+    background: $wa-green;
+    color: #000;
+    border-color: $wa-green;
+  }
 }
 
-.send-btn:hover {
-  background: #1ebe5d;
+/* ---------- UTILITIES ---------- */
+.font-bold {
+  font-weight: 600;
+  color: $text-primary;
 }
 
-/* ================= PAGINATION ================= */
-
-.rd-pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #222;
+.text-sm {
+  font-size: 13px;
 }
 
-.rd-pagination span {
-  font-size: 16px;
-  color: #888;
-}
-
-.rd-pagination button {
-  padding: 6px 14px;
-  font-size: 16px;
-  background: #2a2c30;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.rd-pagination button:hover:not(:disabled) {
-  background: #222;
-}
-
-.rd-pagination button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  background: #000;
+.text-gray {
+  color: $text-secondary;
 }
