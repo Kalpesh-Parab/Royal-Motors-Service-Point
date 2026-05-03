@@ -90,14 +90,28 @@ const VehicleTable = ({
         </thead>
         <tbody>
           {data.map((inv) => (
-            <tr
-              key={inv._id}
-              onClick={() => window.open(`/admin/invoices/${inv._id}/print`)}
-            >
-              <td className='font-bold'>{inv.bikeNumber}</td>
-              <td>{inv.owner?.name}</td>
-              <td>{inv.bike?.model}</td>
-              <td>{new Date(inv.invoiceDate).toLocaleDateString()}</td>
+            <tr key={inv._id}>
+              <td
+                className='font-bold'
+                onClick={() => window.open(`/admin/invoices/${inv._id}/print`)}
+              >
+                {inv.bikeNumber}
+              </td>
+              <td
+                onClick={() => window.open(`/admin/invoices/${inv._id}/print`)}
+              >
+                {inv.owner?.name}
+              </td>
+              <td
+                onClick={() => window.open(`/admin/invoices/${inv._id}/print`)}
+              >
+                {inv.bike?.model}
+              </td>
+              <td
+                onClick={() => window.open(`/admin/invoices/${inv._id}/print`)}
+              >
+                {new Date(inv.invoiceDate).toLocaleDateString()}
+              </td>
               <td className='text-sm text-gray'>{getWorkSummary(inv)}</td>
               <td>
                 <select
